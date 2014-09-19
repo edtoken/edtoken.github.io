@@ -6798,7 +6798,7 @@ body {
 }
 
 .visitCard {
-  padding: 60px;
+  padding: 50px;
 }
 
 .visitCardWrap {
@@ -6859,7 +6859,7 @@ body {
   position: relative;
   list-style: none;
   padding-left: 10px;
-  line-height: 32px;
+  line-height: 36px;
   border-top: 1px dashed #ddd;
 }
 .contactList li:first-child {

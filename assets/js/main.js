@@ -36,6 +36,9 @@
 
         this.getCalcData = function(){
 
+            this.canvas.width = $(window).width();
+            this.canvas.height = $(window).height();
+
             var top  = window.pageYOffset || document.documentElement.scrollTop;
             var headerData = {
                 x1:this.app.$header.offset().left,

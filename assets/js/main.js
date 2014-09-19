@@ -41,6 +41,7 @@
 
             var top  = window.pageYOffset || document.documentElement.scrollTop;
             var headerData = {
+                text:Math.ceil(this.app.$header.width() / 100 * this.app.attributes.step),
                 x1:this.app.$header.offset().left,
                 y:this.app.$header.offset().top - 40 - top,
                 x2:this.app.$header.offset().left + this.app.$header.width(),
@@ -54,18 +55,18 @@
                         x2:this.app.$header.offset().left + this.app.$header.width() / 2,
                         y:this.app.$header.offset().top - 20 - top,
                         process:this.app.$header.offset().left + (
-                            (this.app.$header.width() / 2) / 100 * this.app.attributes.step
+                            (this.app.$header.width() / 4 * 3) / 100 * this.app.attributes.step
                             ),
-                        text:Math.ceil(this.app.$header.offset().left + (
-                            (this.app.$header.width() / 2) / 100 * this.app.attributes.step
-                            ) - this.app.$header.offset().left)
+                        text:(this.app.$header.offset().left + (
+                            (this.app.$header.width() / 4 * 3) / 100 * this.app.attributes.step
+                            ) - this.app.$header.offset().left).toFixed(2)
                     },
                     right:{
                         x1:this.app.$header.offset().left + this.app.$header.width() + 5,
-                        x2:this.app.$header.offset().left + this.app.$header.width() / 2,
+                        x2:this.app.$header.offset().left + this.app.$header.width() / 4 * 3,
                         y:this.app.$header.offset().top - 20 - top,
                         process:this.app.$header.offset().left + this.app.$header.width() - (
-                            (this.app.$header.width() / 2 / 100 * this.app.attributes.step)
+                            (this.app.$header.width() / 4 * 1 / 100 * this.app.attributes.step)
                             )
                     }
                 }
@@ -90,14 +91,20 @@
                 header:{
                     position:this.app.$body.width() / 2 + this.app.$body.offset().left,
                     top:this.app.$header.offset().top - 50 - top,
-                    positionLeft:this.app.$header.offset().left + this.app.$header.width() / 4,
-                    positionRight:this.app.$header.offset().left + (this.app.$header.width() / 4 * 3),
+                    positionLeft:this.app.$header.offset().left + this.app.$header.width() / 3,
+                    positionRight:this.app.$header.offset().left + (this.app.$header.width() / 4 * 3 + (this.app.$header.width() / 4 / 2)),
                     topnext:this.app.$header.offset().top - 30 - top
                 },
                 left:{
                     left:this.app.$body.offset().left - 12,
                     top:(this.app.$header.height() + this.app.$body.height()) / 2 - top
                 }
+            }
+
+            if($(window).width() < 980){
+                headerData.top = headerData.top + 20;
+                headerData.y = headerData.y + 20;
+                textPositions.header.top = textPositions.header.top + 20;
             }
 
             return {
@@ -124,24 +131,27 @@
             this.ctx.lineTo(data.header.process + 5, data.header.y);
             that.ctx.stroke();
 
+            if($(window).width() > 980){
+                // sub header
+                // left 
+                this.ctx.beginPath();
+                this.ctx.moveTo(data.header.sub.left.x1 - 5, data.header.sub.left.y);
+                this.ctx.lineTo(data.header.sub.left.process, data.header.sub.left.y);
+                that.ctx.stroke();
+                // right
+                this.ctx.beginPath();
+                this.ctx.moveTo(data.header.sub.right.x1, data.header.sub.right.y);
+                this.ctx.lineTo(data.header.sub.right.process, data.header.sub.right.y);
+                that.ctx.stroke();
 
-            // sub header
-            // left 
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.header.sub.left.x1 - 5, data.header.sub.left.y);
-            this.ctx.lineTo(data.header.sub.left.process, data.header.sub.left.y);
-            that.ctx.stroke();
-            // right
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.header.sub.right.x1, data.header.sub.right.y);
-            this.ctx.lineTo(data.header.sub.right.process, data.header.sub.right.y);
-            that.ctx.stroke();
+                // vertical sub header
+                this.ctx.beginPath();
+                this.ctx.moveTo(data.header.sub.right.x2, data.header.bottom);
+                this.ctx.lineTo(data.header.sub.right.x2, data.header.sub.top);
+                that.ctx.stroke();
+            }
 
-            // vertical sub header
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.header.sub.right.x2, data.header.bottom);
-            this.ctx.lineTo(data.header.sub.right.x2, data.header.sub.top);
-            that.ctx.stroke();
+            
 
             this.ctx.beginPath();
             this.ctx.moveTo(data.header.x1, data.header.bottom);
@@ -197,9 +207,13 @@
                 that.ctx.fillStyle = '#eee';
                 that.ctx.textAlign = 'center';
                 that.ctx.textBaseline = 'middle';
-                that.ctx.fillText(this.app.attributes.step + '%', data.texts.header.position, data.texts.header.top);
-                that.ctx.fillText(data.header.sub.left.text + 'px', data.texts.header.positionLeft, data.texts.header.topnext);
-                that.ctx.fillText(this.app.attributes.step / 2 + '%', data.texts.header.positionRight, data.texts.header.topnext);
+
+                that.ctx.fillText(data.header.text + 'px', data.texts.header.position, data.texts.header.top);
+                
+                if($(window).width() > 980){
+                    that.ctx.fillText(data.header.sub.left.text + 'px', data.texts.header.positionLeft, data.texts.header.topnext);
+                    that.ctx.fillText(this.app.attributes.step / 4 + '%', data.texts.header.positionRight, data.texts.header.topnext);
+                }
                 
                 that.ctx.fillText('C', data.left.x2 - 20, data.left.y2);
                 that.ctx.fillText('B', data.left.x1 - 20, data.left.sector.y1);

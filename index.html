@@ -12,11 +12,11 @@
 <div class="visitCardWrap container-fluid container-sm-height">
     <div class="row row-sm-height">
         <div class="col-xs-12 col-sm-offset-2 col-lg-offset-3 col-sm-8 col-lg-6 col-xs-height col-middle display-block">
-            <div class="visitCard">
+            <div class="visitCard" itemscope itemtype="http://schema.org/Person">
                 <div id="visitCardHeader" class="row visitCardHeader">
                     <header class="col-sm-12 ">
-                        <h1><span>Edward Titov</span></h1>
-                        <h2>front-end developer</h2>
+                        <h1><span itemprop="name">Edward Titov</span></h1>
+                        <h2 itemprop="jobTitle">front-end developer</h2>
                         <p>( your ideas my time )</p>
                     </header>
                 </div>
@@ -34,7 +34,7 @@
                         </li>
                         <li>
                             <span class="code">&lt;phone="</span>
-                            <a href="tel:+79787389912">+79 787 389 912</a>
+                            <a itemprop="telephone" href="tel:+79787389912">+79 787 389 912</a>
                             <span class="code">"&gt;</span>
                         </li>
                         <li>
@@ -47,9 +47,9 @@
                             <a href="mailto:">editied@gmail.com</a>
                             <span class="code">"&gt;</span>
                         </li>
-                        <li>
+                        <li itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
                             <span class="code">&lt;address="</span>
-                            <span class="info">Sevastopol</span>
+                            <span class="info" itemprop="streetAddress">Sevastopol</span>
                             <span class="code">"&gt;</span>
                         </li>
                     </ol>

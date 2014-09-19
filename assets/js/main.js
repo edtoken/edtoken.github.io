@@ -120,13 +120,20 @@
             this.ctx.clearRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
 
             var data = this.getCalcData();
-
+            var color = getRandomColor();
             // home line
             this.ctx.lineWidth = 1;
             if(this.app.attributes.step === 0 || this.app.attributes.step % 10 === 0){
-                this.ctx.strokeStyle = getRandomColor();
-                this.ctx.fillStyle = this.ctx.strokeStyle;
+                color = getRandomColor();
             }
+            
+            if(this.app.attributes.step === 100){
+                color = '#178a3b';
+            }
+
+            this.ctx.strokeStyle = color
+            this.ctx.fillStyle = color;
+
             this.ctx.moveTo(data.header.x1 - 5, data.header.y);
             this.ctx.lineTo(data.header.process + 5, data.header.y);
             that.ctx.stroke();

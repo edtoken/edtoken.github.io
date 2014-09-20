@@ -77,7 +77,8 @@
                 y1:this.app.$body.offset().top + this.app.$body.height() - top,
                 x2:this.app.$header.offset().left - 12,
                 y2:this.app.$header.offset().top - top,
-                process:this.app.$header.offset().top - top,
+                // process:this.app.$header.offset().top - top,
+                process:this.app.$body.offset().top - top + this.app.$body.height() - ((this.app.$body.height() + this.app.$header.height() )/ 100 * this.app.attributes.step),
                 bottom:this.app.$body.offset().left,
                 top:this.app.$body.offset().left - ( 17 / 100 * this.app.attributes.step),
                 text:this.app.$header.height() + this.app.$body.height() - this.app.$header.offset().top,
@@ -119,18 +120,11 @@
             this.ctx.beginPath();
             this.ctx.clearRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
 
+            var color = '#178a3b';
             var data = this.getCalcData();
-            var color = getRandomColor();
+
             // home line
             this.ctx.lineWidth = 1;
-            if(this.app.attributes.step === 0 || this.app.attributes.step % 10 === 0){
-                color = getRandomColor();
-            }
-            
-            if(this.app.attributes.step === 100){
-                color = '#178a3b';
-            }
-
             this.ctx.strokeStyle = color
             this.ctx.fillStyle = color;
 
@@ -170,9 +164,10 @@
             this.ctx.lineTo(data.header.x2, data.header.top);
             that.ctx.stroke();
 
+            // left size line
             this.ctx.beginPath();
             this.ctx.moveTo(data.left.x1, data.left.y1 + 5);
-            this.ctx.lineTo(data.left.x2, data.left.process - 5);
+            this.ctx.lineTo(data.left.x2, data.left.process - 20);
             that.ctx.stroke();
 
             this.ctx.beginPath();

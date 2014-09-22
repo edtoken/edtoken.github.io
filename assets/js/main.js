@@ -76,8 +76,8 @@
                 x1:this.app.$body.offset().left - 12,
                 y1:this.app.$body.offset().top + this.app.$body.height() - top,
                 x2:this.app.$header.offset().left - 12,
+                x3:false,
                 y2:this.app.$header.offset().top - top,
-                // process:this.app.$header.offset().top - top,
                 process:this.app.$body.offset().top - top + this.app.$body.height() - ((this.app.$body.height() + this.app.$header.height() )/ 100 * this.app.attributes.step),
                 bottom:this.app.$body.offset().left,
                 top:this.app.$body.offset().left - ( 17 / 100 * this.app.attributes.step),
@@ -106,6 +106,7 @@
                 headerData.top = headerData.top + 20;
                 headerData.y = headerData.y + 20;
                 textPositions.header.top = textPositions.header.top + 20;
+                getLeftData.x3 = $('.skillsList').offset().top - top;
             }
 
             return {
@@ -152,8 +153,6 @@
                 that.ctx.stroke();
             }
 
-            
-
             this.ctx.beginPath();
             this.ctx.moveTo(data.header.x1, data.header.bottom);
             this.ctx.lineTo(data.header.x1, data.header.top);
@@ -185,6 +184,13 @@
             this.ctx.lineTo(data.left.top, data.left.sector.y1);
             that.ctx.stroke();
 
+            if(data.left.x3){
+                this.ctx.beginPath();
+                this.ctx.moveTo(data.left.bottom, data.left.x3);
+                this.ctx.lineTo(data.left.top, data.left.x3);
+                that.ctx.stroke();
+            }
+
             /**
              * render circles
              */
@@ -201,6 +207,12 @@
                 this.ctx.beginPath();
                 this.ctx.arc(data.left.x1 - 20, data.left.sector.y1, 15, 0, 2 * Math.PI, false);
                 this.ctx.fill();
+
+                if(data.left.x3){
+                    this.ctx.beginPath();
+                    this.ctx.arc(data.left.x1 - 20, data.left.x3, 15, 0, 2 * Math.PI, false);
+                    this.ctx.fill();
+                }
             }
 
             if(this.app.attributes.step > 60){
@@ -217,11 +229,14 @@
                     that.ctx.fillText(this.app.attributes.step / 4 + '%', data.texts.header.positionRight, data.texts.header.topnext);
                 }
                 
-                that.ctx.fillText('C', data.left.x2 - 20, data.left.y2);
-                that.ctx.fillText('B', data.left.x1 - 20, data.left.sector.y1);
+                that.ctx.fillText('D', data.left.x2 - 20, data.left.y2);
+                that.ctx.fillText('C', data.left.x1 - 20, data.left.sector.y1);
+                if(data.left.x3){
+                    that.ctx.fillText('B', data.left.x1 - 20, data.left.x3);
+                }
+
                 that.ctx.fillText('A', data.left.x1 - 20, data.left.y1);
-                
-                // that.ctx.fillText(data.left.text + 'px', data.texts.left.left, data.texts.left.top);
+            
 
             }
 

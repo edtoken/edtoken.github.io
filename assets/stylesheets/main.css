@@ -6808,6 +6808,7 @@ body {
 
 .visitCardHeader {
   position: relative;
+  z-index: 1;
   padding-top: 15px;
   background: #313131;
   color: #fff;
@@ -6846,6 +6847,7 @@ body {
   position: relative;
   background: #f5f5f3;
   border-bottom: 1px solid #313131;
+  z-index: 1;
 }
 
 .contactList {
@@ -6916,6 +6918,7 @@ body {
   top: 0;
   right: 0;
   bottom: 0;
+  z-index: 0;
 }
 .canvasWrap > canvas.mainCanvas {
   width: 100%;

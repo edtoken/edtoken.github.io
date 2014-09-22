@@ -36,6 +36,8 @@
 
         this.getCalcData = function(){
 
+            var mobile = $(window).width() < 980;
+
             this.canvas.width = $(window).width();
             this.canvas.height = $(window).height();
 
@@ -102,14 +104,15 @@
                 }
             }
 
-            if($(window).width() < 980){
+            if(mobile){
                 headerData.top = headerData.top + 20;
                 headerData.y = headerData.y + 20;
                 textPositions.header.top = textPositions.header.top + 20;
-                getLeftData.x3 = $('.skillsList').offset().top - top;
+                getLeftData.x3 = this.app.nodes.$skillsList.offset().top - top;
             }
 
             return {
+                mobile:mobile,
                 header:headerData,
                 left:getLeftData,
                 texts:textPositions
@@ -133,7 +136,7 @@
             this.ctx.lineTo(data.header.process + 5, data.header.y);
             that.ctx.stroke();
 
-            if($(window).width() > 980){
+            if(!data.mobile){
                 // sub header
                 // left 
                 this.ctx.beginPath();
@@ -184,7 +187,7 @@
             this.ctx.lineTo(data.left.top, data.left.sector.y1);
             that.ctx.stroke();
 
-            if(data.left.x3){
+            if(data.mobile){
                 this.ctx.beginPath();
                 this.ctx.moveTo(data.left.bottom, data.left.x3);
                 this.ctx.lineTo(data.left.top, data.left.x3);
@@ -224,13 +227,14 @@
 
                 that.ctx.fillText(data.header.text + 'px', data.texts.header.position, data.texts.header.top);
                 
-                if($(window).width() > 980){
+                if(!data.mobile){
                     that.ctx.fillText(data.header.sub.left.text + 'px', data.texts.header.positionLeft, data.texts.header.topnext);
                     that.ctx.fillText(this.app.attributes.step / 4 + '%', data.texts.header.positionRight, data.texts.header.topnext);
                 }
                 
                 that.ctx.fillText('D', data.left.x2 - 20, data.left.y2);
                 that.ctx.fillText('C', data.left.x1 - 20, data.left.sector.y1);
+
                 if(data.left.x3){
                     that.ctx.fillText('B', data.left.x1 - 20, data.left.x3);
                 }
@@ -270,6 +274,14 @@
                 that.$header = $(that.header);
                 that.body = document.getElementById('visitCardBody');
                 that.$body = $(that.body);
+                that.nodes = {};
+                that.nodes.$skillsList = $('.skillsList');
+                that.nodes.$linkedin = $('.linkedin');
+                that.nodes.$github = $('.github');
+                that.nodes.$phone = $('.phone');
+                that.nodes.$skype = $('.skype');
+                that.nodes.$email = $('.email');
+                that.nodes.$address = $('.address');
 
                 mainCanvas.prototype.app = that;
                 that.maincanvas = new mainCanvas();
@@ -283,11 +295,12 @@
         var skillProcessInit = function(){
 
             var process =  0;
-            var color = getRandomColor();
+            var color;
             $('.skillsList li').append('<span></span>');
 
             var skillProcess = function(){
                 $('.skillsList li span').each(function(){
+                    color = getRandomColor();
                     var value = parseInt(this.parentNode.getAttribute('data-val')) / 100 * (process * 2);
                     this.setAttribute('style', 'background:' + color +';width:'+value+'%;');
                 });
@@ -305,6 +318,10 @@
 
         new App().initialize({
             debug:false
+        });
+
+        $(window).on('resize', function(){
+            $('.skillsList li span').css('background', getRandomColor);
         });
 
     });

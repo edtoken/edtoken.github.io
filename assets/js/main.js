@@ -33,11 +33,15 @@
         $(window).on('scroll', function(){
             that.render();
         });
+        // this.$canvas.on('mousemove touchmove', function(){
+        //     if(that.app.attributes.step === 100){
+        //         console.log('move 100');
+        //     }
+        // });
 
         this.getCalcData = function(){
 
             var mobile = $(window).width() < 980;
-
             this.canvas.width = $(window).width();
             this.canvas.height = $(window).height();
 
@@ -111,11 +115,18 @@
                 getLeftData.x3 = this.app.nodes.$skillsList.offset().top - top;
             }
 
+            var lineData = {
+                y:0,
+                y1:this.ctx.canvas.height,
+                left:50
+            };
+
             return {
                 mobile:mobile,
                 header:headerData,
                 left:getLeftData,
-                texts:textPositions
+                texts:textPositions,
+                line:lineData
             }
         };
 
@@ -216,6 +227,18 @@
                     this.ctx.arc(data.left.x1 - 20, data.left.x3, 15, 0, 2 * Math.PI, false);
                     this.ctx.fill();
                 }
+
+                // render move line
+                // this.ctx.lineWidth = 1;
+                // this.ctx.strokeStyle = ' #000';
+                // this.ctx.beginPath();
+                // this.ctx.moveTo(data.line.left, data.line.y);
+                // this.ctx.lineTo(data.line.left, data.line.y1);
+                // console.log(data.line);
+                // that.ctx.stroke();
+
+                // // this.ctx.lineWidth = 1;
+                // this.ctx.strokeStyle = color
             }
 
             if(this.app.attributes.step > 60){
@@ -275,6 +298,7 @@
                 that.body = document.getElementById('visitCardBody');
                 that.$body = $(that.body);
                 that.nodes = {};
+                that.nodes.$contactList = $('.contactList');
                 that.nodes.$skillsList = $('.skillsList');
                 that.nodes.$linkedin = $('.linkedin');
                 that.nodes.$github = $('.github');

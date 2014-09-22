@@ -6798,7 +6798,7 @@ body {
 }
 
 .visitCard {
-  padding: 50px;
+  padding: 80px 50px 50px;
 }
 
 .visitCardWrap {
@@ -6901,7 +6901,7 @@ body {
   content: "";
   display: block;
   width: 100%;
-  background: #313131;
+  background: #ddd;
   height: 1px;
 }
 .skillsList li span {

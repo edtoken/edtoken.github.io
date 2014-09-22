@@ -6897,6 +6897,13 @@ body {
   font-size: 12px;
   list-style: none;
 }
+.skillsList li:after {
+  content: "";
+  display: block;
+  width: 100%;
+  background: #313131;
+  height: 1px;
+}
 .skillsList li span {
   display: block;
   width: 1%;

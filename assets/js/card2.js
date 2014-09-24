@@ -206,7 +206,7 @@
 			      	]
 			      };
 
-			      if(this.getReady(3, false)){
+			      if(this.getReady(2, false)){
 			      	opt.items.startCircleResects.items.push({
 		      			x:opt.area.center.x - opt.items.startCenterCircle.radius, 
 		      			y:opt.area.center.y, 
@@ -219,6 +219,9 @@
 		      			startAngle:290 * (Math.PI / 180), 
 		      			endAngle:310 * (Math.PI / 180)
 		      		});
+		      	}
+		      	
+			      if(this.getReady(3, false)){
 		      		opt.items.startCircleResects.items.push({
 		      			x:opt.area.center.x + opt.items.startCenterCircle.radius, 
 		      			y:opt.area.center.y, 

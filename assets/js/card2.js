@@ -15,7 +15,7 @@
 				process:0,
 				step:1,
 				percent:0,
-				steps:[15, 100, 100]
+				steps:[15, 30, 50]
 			}
 		};
 
@@ -200,22 +200,25 @@
 			      			y:opt.area.center.y, 
 			      			startAngle:110 * (Math.PI / 180) , 
 			      			endAngle:130 * (Math.PI / 180) 
-			      		},
-			      		{
-			      			x:opt.area.center.x - opt.items.startCenterCircle.radius, 
-			      			y:opt.area.center.y, 
-			      			startAngle:40 * (Math.PI / 180), 
-			      			endAngle:70 * (Math.PI / 180)
 			      		}
 			      	]
 			      };
+
+			      if(this.getReady(3, false)){
+			      	opt.items.startCircleResects.items.push({
+		      			x:opt.area.center.x - opt.items.startCenterCircle.radius, 
+		      			y:opt.area.center.y, 
+		      			startAngle:40 * (Math.PI / 180), 
+		      			endAngle:70 * (Math.PI / 180)
+		      		});
+			      }
 			}
 
 		      /**
 		       * start circle points intersection
 		       * calc http://algolist.manual.ru/maths/geom/intersect/circlecircle2d.php
 		       */
-		      if(this.getReady(3, false)){
+		      if(this.getReady(2, false)){
 			      opt.items.startCirclePoints = {
 			      	radius:3,
 					background:opt.base.colors.point2,
@@ -227,17 +230,21 @@
 							y:function(){
 								return opt.items.startCircleResects.items[0].y + (opt.items.startCenterCircle.radius * Math.sqrt(3) / 2) ;
 							}
-						},
-						{
-							x:function(){
-								return opt.items.startCircleResects.items[1].x + opt.items.startCircleResects.radius / 2
-							}, 
-							y:function(){
-								return opt.items.startCircleResects.items[1].y + (opt.items.startCenterCircle.radius * Math.sqrt(3) / 2) ;
-							}
 						}
+						
 					]
 			      };
+
+			      if(this.getReady(3, false)){
+			      	opt.items.startCirclePoints.items.push({
+						x:function(){
+							return opt.items.startCircleResects.items[1].x + opt.items.startCircleResects.radius / 2
+						}, 
+						y:function(){
+							return opt.items.startCircleResects.items[1].y + (opt.items.startCenterCircle.radius * Math.sqrt(3) / 2) ;
+						}
+					});
+			      }
 			}
 		      /**
 		       * baseLine

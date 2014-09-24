@@ -337,7 +337,13 @@
 
         $(window).on('resize', function(){
             $('.skillsList li span').css('background', getRandomColor);
-        });
+            // вот тут пииш 5
+            data = {
+                start:0,
+                end:100,
+                current:500
+            }
+       });
 
     });
 

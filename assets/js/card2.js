@@ -15,7 +15,7 @@
 				process:0,
 				step:1,
 				percent:0,
-				steps:[15, 30, 50]
+				steps:[15, 20, 30, 20]
 			}
 		};
 
@@ -95,6 +95,7 @@
 				line1:'#999999',
 				line2:'#555555',
 				line3:'#333333',
+				line4:'#000000',
 				point1:'#555555',
 				point2:'#222222'
 			};
@@ -190,6 +191,7 @@
 		       * start circle rects
 		       */
 		      if(this.getReady(2, false)){
+
 			      opt.items.startCircleResects = {
 			      	radius:200,
 			      	lineWidth:1,
@@ -211,6 +213,18 @@
 		      			startAngle:40 * (Math.PI / 180), 
 		      			endAngle:70 * (Math.PI / 180)
 		      		});
+		      		opt.items.startCircleResects.items.push({
+		      			x:opt.area.center.x - opt.items.startCenterCircle.radius, 
+		      			y:opt.area.center.y, 
+		      			startAngle:290 * (Math.PI / 180), 
+		      			endAngle:310 * (Math.PI / 180)
+		      		});
+		      		opt.items.startCircleResects.items.push({
+		      			x:opt.area.center.x + opt.items.startCenterCircle.radius, 
+		      			y:opt.area.center.y, 
+		      			startAngle:230 * (Math.PI / 180), 
+		      			endAngle:255 * (Math.PI / 180)
+		      		});
 			      }
 			}
 
@@ -219,6 +233,7 @@
 		       * calc http://algolist.manual.ru/maths/geom/intersect/circlecircle2d.php
 		       */
 		      if(this.getReady(2, false)){
+
 			      opt.items.startCirclePoints = {
 			      	radius:3,
 					background:opt.base.colors.point2,
@@ -244,15 +259,31 @@
 							return opt.items.startCircleResects.items[1].y + (opt.items.startCenterCircle.radius * Math.sqrt(3) / 2) ;
 						}
 					});
+			      	opt.items.startCirclePoints.items.push({
+						x:function(){
+							return opt.items.startCircleResects.items[1].x + opt.items.startCircleResects.radius / 2
+						}, 
+						y:function(){
+							return opt.items.startCircleResects.items[1].y - (opt.items.startCenterCircle.radius * Math.sqrt(3) / 2) ;
+						}
+					});
+			      	opt.items.startCirclePoints.items.push({
+						x:function(){
+							return opt.items.startCircleResects.items[0].x - opt.items.startCircleResects.radius / 2
+						}, 
+						y:function(){
+							return opt.items.startCircleResects.items[0].y - (opt.items.startCenterCircle.radius * Math.sqrt(3) / 2) ;
+						}
+					});
 			      }
 			}
 		      /**
 		       * baseLine
 		       */
 		      if(this.getReady(3, false)){
-			      opt.items.startBaseLine = {
+			      opt.items.baselineBottom = {
 			      	lineWidth:1,
-					strokeStyle:opt.base.colors.line3,
+					strokeStyle:opt.base.colors.line2,
 					position:{
 						x1:opt.area.center.x - opt.items.startCenterCircle.radius - 100, 
 						x2:opt.area.center.x - opt.items.startCenterCircle.radius - 100
@@ -261,6 +292,36 @@
 						,
 						y1:opt.items.startCirclePoints.items[0].y(), 
 						y2:opt.items.startCirclePoints.items[0].y()
+					}
+			      };
+			}
+
+			if(this.getReady(3, false)){
+			      opt.items.baseLineRight = {
+			      	lineWidth:1,
+					strokeStyle:opt.base.colors.line2,
+					position:{
+						x1:opt.area.center.x + opt.items.startCenterCircle.radius - 100, 
+						x2:opt.area.center.x + opt.items.startCenterCircle.radius - 100,
+						y1:opt.items.startCirclePoints.items[1].y(), 
+						y2:opt.items.startCirclePoints.items[1].y() -
+							(opt.items.startCirclePoints.items[1].y() - opt.items.startCirclePoints.items[2].y()) / 100 
+							* this.getReady(3, false)
+					}
+			      };
+			}
+
+			if(this.getReady(4, false)){
+			      opt.items.baseLineLeft = {
+			      	lineWidth:2,
+					strokeStyle:opt.base.colors.line2,
+					position:{
+						x1:opt.area.center.x - opt.items.startCenterCircle.radius + 100, 
+						x2:opt.area.center.x - opt.items.startCenterCircle.radius + 100,
+						y1:opt.items.startCirclePoints.items[0].y(), 
+						y2:opt.items.startCirclePoints.items[1].y() -
+							(opt.items.startCirclePoints.items[1].y() - opt.items.startCirclePoints.items[2].y()) / 100 
+							* this.getReady(4, false)
 					}
 			      };
 			}
@@ -373,15 +434,45 @@
 			/**
 			 * render baseLine
 			 */
-			if(d.items.startBaseLine){
+			if(d.items.baselineBottom){
 				this.fn.renderLine.call(
 					this,
-					d.items.startBaseLine.position.x1, 
-					d.items.startBaseLine.position.x2, 
-					d.items.startBaseLine.position.y1, 
-					d.items.startBaseLine.position.y2, 
-					d.items.startLines.lineWidth,
-					d.items.startLines.strokeStyle
+					d.items.baselineBottom.position.x1, 
+					d.items.baselineBottom.position.x2, 
+					d.items.baselineBottom.position.y1, 
+					d.items.baselineBottom.position.y2, 
+					d.items.baselineBottom.lineWidth,
+					d.items.baselineBottom.strokeStyle
+				);
+			}
+
+			/**
+			 * baseline left 
+			 */
+			if(d.items.baseLineLeft){
+				this.fn.renderLine.call(
+					this,
+					d.items.baseLineLeft.position.x1, 
+					d.items.baseLineLeft.position.x2, 
+					d.items.baseLineLeft.position.y1, 
+					d.items.baseLineLeft.position.y2, 
+					d.items.baseLineLeft.lineWidth,
+					d.items.baseLineLeft.strokeStyle
+				);
+			}
+
+			/**
+			 * baseline right
+			 */
+			if(d.items.baseLineRight){
+				this.fn.renderLine.call(
+					this,
+					d.items.baseLineRight.position.x1, 
+					d.items.baseLineRight.position.x2, 
+					d.items.baseLineRight.position.y1, 
+					d.items.baseLineRight.position.y2, 
+					d.items.baseLineRight.lineWidth,
+					d.items.baseLineRight.strokeStyle
 				);
 			}
 

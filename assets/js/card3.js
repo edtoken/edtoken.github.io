@@ -463,7 +463,8 @@
 							x2:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
 								var item = items.items[1];
-								return item.x;
+								var itemFirst = items.items[0];
+								return itemFirst.x + (item.x - itemFirst.x) / 100 * that.app.fn.calc.getReady(9, 9);
 							},
 							y1:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
@@ -486,7 +487,8 @@
 							x2:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
 								var item = items.items[3];
-								return item.x;
+								var itemFirst = items.items[2];
+								return itemFirst.x + (item.x - itemFirst.x) / 100 * that.app.fn.calc.getReady(9, 9);
 							},
 							y1:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
@@ -518,8 +520,9 @@
 							}, 
 							y2:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
-								var item = items.items[1];
-								return item.y;
+								var item = items.items[2];
+								var itemFirst = items.items[1];
+								return item.y + (itemFirst.y - item.y) / 100 * that.app.fn.calc.getReady(9, 9);
 							}
 						},
 
@@ -542,7 +545,8 @@
 							y2:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
 								var item = items.items[1];
-								return item.y;
+								var itemFirst = items.items[2];
+								return itemFirst.y + (item.y - itemFirst.y) / 100 * that.app.fn.calc.getReady(9, 9);
 							}
 						}
 					]
@@ -566,7 +570,7 @@
 				process:0,
 				step:1,
 				percent:0,
-				steps:[15,40,80,15,80,15,80,15,200]
+				steps:[15,30,50,15,70,15,50,15,50]
 			}
 		};
 		

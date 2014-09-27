@@ -234,6 +234,7 @@
 		      /**
 		       * start circle points intersection
 		       * calc http://algolist.manual.ru/maths/geom/intersect/circlecircle2d.php
+		       * http://www.litunovskiy.com/gamedev/intersection_of_two_circles/
 		       */
 		      if(this.getReady(2, false)){
 

@@ -160,7 +160,7 @@
 				{
 					name:'startPoints',
 					type:'arc',
-					step:{start:1, end:11},
+					step:{start:1, end:10, full:false},
 					background:opt.base.colors.point1,
 					items:[
 						{
@@ -201,7 +201,7 @@
 				{
 					name:'startLines',
 					type:'line',
-					step:{start:2, end:11},
+					step:{start:2, end:10, full:false},
 					lineWidth:1,
 					strokeStyle:opt.base.colors.line1,
 					items:[
@@ -236,7 +236,7 @@
 				{
 					name:'baseLine',
 					type:'line',
-					step:{start:3, end:11},
+					step:{start:3, end:10, full:false},
 					lineWidth:1,
 					strokeStyle:opt.base.colors.line1,
 					items:[
@@ -252,7 +252,7 @@
 				{
 					name:'baseLineStartPoint',
 					type:'arc',
-					step:{start:4, end:11},
+					step:{start:4, end:10, full:false},
 					background:opt.base.colors.point1,
 					items:[
 						{
@@ -269,7 +269,7 @@
 				{
 					name:'baseLineFirstArc',
 					type:'arc',
-					step:{start:5, end:false},
+					step:{start:5, end:10, full:false},
 					background:'transparent',
 					strokeStyle:opt.base.colors.line1,
 					lineWidth:1,
@@ -288,7 +288,7 @@
 				{
 					name:'baseLineSecondPoints',
 					type:'arc',
-					step:{start:6, end:11},
+					step:{start:6, end:10, full:false},
 					background:opt.base.colors.point1,
 					items:[
 						{
@@ -319,7 +319,7 @@
 				{
 					name:'baseLineSecondArcs',
 					type:'arc',
-					step:{start:7, end:11},
+					step:{start:7, end:10, full:false},
 					background:'transparent',
 					strokeStyle:opt.base.colors.line1,
 					lineWidth:1,
@@ -353,7 +353,7 @@
 				{
 					name:'baseLineIntersectionPoints',
 					type:'arc',
-					step:{start:8, end:11},
+					step:{start:8, end:10},
 					background:opt.base.colors.point1,
 					items:[
 						{
@@ -570,7 +570,7 @@
 				process:0,
 				step:1,
 				percent:0,
-				steps:[15,30,50,15,70,15,50,15,50]
+				steps:[15,30,50,15,70,15,50,15,50, 200]
 			}
 		};
 		
@@ -597,13 +597,13 @@
 
 					default:
 						
-						// if(d.items[item].step.end 
-						// 	&& d.items[item].step.end <= this.attributes.r.step 
-						// 	&& typeof d.items[item].step.full !== 'undefined'
-						// 	&& d.items[item].step.full === false
-						// ){
-						// 	continue;
-						// }
+						if(d.items[item].step.end 
+							&& d.items[item].step.end <= this.attributes.r.step 
+							&& typeof d.items[item].step.full !== 'undefined'
+							&& d.items[item].step.full === false
+						){
+							continue;
+						}
 
 						if(d.items[item].step.start && d.items[item].step.start > this.attributes.r.step){
 							continue;

@@ -277,7 +277,12 @@
 						{
 							x:opt.area.center.x, 
 							y:opt.area.center.y,
-							r: 300, 
+							r: function(){
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return a+b+c;
+							}, 
 							sAngle:0, 
 							eAngle:360 / 100 * that.app.fn.calc.getReady(5, 5),
 							counterclockwise:false
@@ -330,7 +335,12 @@
 								return opt.area.center.x - item.items[0].r
 							},
 							y:opt.area.center.y,
-							r: 100, 
+							r: function(){
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return (a+b+c) / 2;
+							}, 
 							sAngle:0, 
 							eAngle:360 / 100 * that.app.fn.calc.getReady(7, 7),
 							counterclockwise:false
@@ -342,7 +352,12 @@
 								return opt.area.center.x + item.items[0].r
 							},
 							y:opt.area.center.y,
-							r: 100 / 100 * that.app.fn.calc.getReady(7, 7), 
+							r: function(){
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return ((a+b+c) / 2) / 100 * that.app.fn.calc.getReady(7, 7);
+							}, 
 							sAngle:0, 
 							eAngle:360,
 							counterclockwise:false
@@ -570,7 +585,7 @@
 				process:0,
 				step:1,
 				percent:0,
-				steps:[10,20,10,10,50,5,50,10,50, 200]
+				steps:[10,20,10,10,50,5,50,10,100]
 			}
 		};
 		
@@ -596,14 +611,6 @@
 				switch(d.items[item].name){
 
 					default:
-						
-						if(d.items[item].step.end 
-							&& d.items[item].step.end <= this.attributes.r.step 
-							&& typeof d.items[item].step.full !== 'undefined'
-							&& d.items[item].step.full === false
-						){
-							continue;
-						}
 
 						if(d.items[item].step.start && d.items[item].step.start > this.attributes.r.step){
 							continue;
@@ -647,8 +654,18 @@
 				    if(that.attributes.r.step <= that.attributes.r.steps.length){
 				        that.render();
 				    }
+
+				    	if(that.attributes.r.step > that.attributes.r.steps.length){
+				    		that.renderFinal();
+					}
 				});
 
+			}
+
+			this.renderFinal = function(){
+				$('#visitCardHeader').removeClass('disable');
+				$('#visitCardBody').removeClass('disable');
+				$('#visitCardFooter').removeClass('disable');
 			}
 
 			this.log({msg:'[F] render'});
@@ -663,7 +680,7 @@
 
         		this.fn.app = this;
 			this.attributes = $.extend(this.attributes, options);
-			this.canvas = document.getElementById('cardCanvas');
+			this.canvas = document.getElementById('mainCanvas');
 			this.$canvas = $(this.canvas);
 			this.ctx = this.canvas.getContext('2d');
 			this.ctx.canvas.width = this.$canvas.width();

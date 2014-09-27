@@ -9,12 +9,13 @@ html,
 body 
 {
     height: 100%;
-    background:#5C5959;
+    background:#ffffff;
 }
 
 body 
 {
     color:#424242;
+    background:#ccc;
     padding: 0;
     margin: 0;
 }
@@ -39,6 +40,13 @@ body
 {
     width: 100%;
     height: 100%;
+}
+
+.visitCardHeader.disable,
+.visitCardBody.disable,
+.visitCardFooter.disable
+{
+    opacity: 0.1;
 }
 
 .visitCardHeader

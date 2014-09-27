@@ -395,7 +395,7 @@
 								var b = Math.sqrt(Math.pow(dataCircleItem.r, 2) - Math.pow(a, 2));
 								return dataCircleItem.y + b;
 							},
-							r: 3 / 100 * that.app.fn.calc.getReady(4, 4), 
+							r: 3 / 100 * that.app.fn.calc.getReady(8, 8), 
 							sAngle:0, 
 							eAngle:360,
 							counterclockwise:false
@@ -417,7 +417,7 @@
 								var b = Math.sqrt(Math.pow(dataCircleItem.r, 2) - Math.pow(a, 2));
 								return dataCircleItem.y - b;
 							},
-							r: 3 / 100 * that.app.fn.calc.getReady(4, 4), 
+							r: 3 / 100 * that.app.fn.calc.getReady(8, 8), 
 							sAngle:0, 
 							eAngle:360,
 							counterclockwise:false
@@ -439,7 +439,7 @@
 								var b = Math.sqrt(Math.pow(dataCircleItem.r, 2) - Math.pow(a, 2));
 								return dataCircleItem.y - b;
 							},
-							r: 3 / 100 * that.app.fn.calc.getReady(4, 4), 
+							r: 3 / 100 * that.app.fn.calc.getReady(8, 8), 
 							sAngle:0, 
 							eAngle:360,
 							counterclockwise:false
@@ -463,7 +463,7 @@
 							x2:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
 								var item = items.items[1];
-								return item.x / 100 * that.app.fn.calc.getReady(9,9);
+								return item.x;
 							},
 							y1:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
@@ -486,7 +486,7 @@
 							x2:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
 								var item = items.items[3];
-								return item.x / 100 * that.app.fn.calc.getReady(9,9);
+								return item.x;
 							},
 							y1:function(){
 								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
@@ -566,7 +566,7 @@
 				process:0,
 				step:1,
 				percent:0,
-				steps:[10,40,80,10,80,10,80,100,200,200]
+				steps:[15,40,80,15,80,15,80,15,200,200]
 			}
 		};
 		

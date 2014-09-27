@@ -242,7 +242,7 @@
 					items:[
 						{
 							x1:opt.base.width / 4,
-							x2:(opt.base.width / 4 * 3) / 100 * that.app.fn.calc.getReady(3, 3), 
+							x2:opt.base.width / 4 + ((opt.base.width / 4 * 2) / 100 * that.app.fn.calc.getReady(3, 3)), 
 							y1:opt.area.center.y, 
 							y2:opt.area.center.y
 						}
@@ -566,7 +566,7 @@
 				process:0,
 				step:1,
 				percent:0,
-				steps:[15,40,80,15,80,15,80,15,200,200]
+				steps:[15,40,80,15,80,15,80,15,200]
 			}
 		};
 		

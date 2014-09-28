@@ -235,7 +235,7 @@
             if(this.app.attributes.step > 60){
 
                 that.ctx.font = "500 12px PT Sans";
-                that.ctx.fillStyle = '#eee';
+                that.ctx.fillStyle = '#333';
                 that.ctx.textAlign = 'center';
                 that.ctx.textBaseline = 'middle';
 

@@ -249,7 +249,7 @@
 				{
 					name:'baseLine',
 					type:'line',
-					step:{start:3, end:10, full:false},
+					step:{start:3, end:10},
 					lineWidth:1,
 					strokeStyle:opt.base.colors.line1,
 					items:[
@@ -277,7 +277,7 @@
 				{
 					name:'baseLineStartPoint',
 					type:'arc',
-					step:{start:4, end:10, full:false},
+					step:{start:4, end:10},
 					background:opt.base.colors.point1,
 					items:[
 						{
@@ -300,7 +300,7 @@
 				{
 					name:'baseLineFirstArc',
 					type:'arc',
-					step:{start:5, end:10, full:false},
+					step:{start:5, end:10},
 					background:'transparent',
 					strokeStyle:opt.base.colors.line1,
 					lineWidth:1,
@@ -334,7 +334,7 @@
 				{
 					name:'baseLineSecondPoints',
 					type:'arc',
-					step:{start:6, end:10, full:false},
+					step:{start:6, end:10},
 					background:opt.base.colors.point1,
 					items:[
 						{
@@ -375,7 +375,7 @@
 				{
 					name:'baseLineSecondArcs',
 					type:'arc',
-					step:{start:7, end:10, full:false},
+					step:{start:7, end:10},
 					background:'transparent',
 					strokeStyle:opt.base.colors.line1,
 					lineWidth:1,
@@ -691,6 +691,13 @@
 
 					default:
 
+						if(typeof d.items[item].step.full !== 'undefined'
+							&& d.items[item].step.full === false
+							&& d.items[item].step.end <= this.attributes.r.step
+						){
+							continue;
+						}
+
 						if(d.items[item].step.start && d.items[item].step.start > this.attributes.r.step){
 							continue;
 						}
@@ -730,9 +737,9 @@
 				    }
 
 				    // TODO
-				    if(that.attributes.r.step <= that.attributes.r.steps.length){
+				    // if(that.attributes.r.step <= that.attributes.r.steps.length){
 				        that.render();
-				    }
+				    // }
 
 				    	if(that.attributes.r.step > that.attributes.r.steps.length){
 				    		that.renderFinal();

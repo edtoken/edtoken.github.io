@@ -310,8 +310,8 @@ th {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url("bootstrap/glyphicons-halflings-regular.eot");
-  src: url("bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
+  src: url("../../assets/fonts/bootstrap/glyphicons-halflings-regular.eot");
+  src: url("../../assets/fonts/bootstrap/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../../assets/fonts/bootstrap/glyphicons-halflings-regular.woff") format("woff"), url("../../assets/fonts/bootstrap/glyphicons-halflings-regular.ttf") format("truetype"), url("../../assets/fonts/bootstrap/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg");
 }
 .glyphicon {
   position: relative;
@@ -6811,6 +6811,35 @@ body {
 .visitCardBody.disable,
 .visitCardFooter.disable {
   opacity: 0;
+}
+
+.pageinfoblock {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  line-height: 10px;
+  line-height: 1rem;
+  border: 1px solid #ddd;
+  color: #555;
+  list-style: none;
+  font-size: 12px;
+  font-size: 1.2rem;
+  width: 100%;
+  padding: 1rem;
+  margin: 0;
+  background: #f5f5f3;
+  text-align: center;
+  z-index: 200;
+}
+.pageinfoblock:before {
+  content: "\e086";
+  font-family: "Glyphicons Halflings";
+  color: #49b7c4;
+  margin-right: 10px;
+  margin-right: 1rem;
+  vertical-align: middle;
+  display: inline-block;
 }
 
 .visitCardHeader {

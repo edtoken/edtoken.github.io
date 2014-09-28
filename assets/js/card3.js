@@ -150,6 +150,7 @@
 			};
 
 			opt.area = {};
+			opt.area.scroll = $(window).scrollTop();
 			opt.area.x1 = 20;
 			opt.area.y1 = 20;
 			opt.area.x2 = that.app.canvas.width - 20;
@@ -260,14 +261,14 @@
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							}, 
 							y2:function(){
 								var top = $('#visitCardHeader').offset().top;
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							}
 						}
 					]
@@ -286,7 +287,7 @@
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							},
 							r: 3 / 100 * that.app.fn.calc.getReady(4, 4), 
 							sAngle:0, 
@@ -311,7 +312,7 @@
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							},
 							r: function(){
 								var a1 = $('#visitCardHeader').height();
@@ -345,7 +346,7 @@
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							},
 							r: 3 / 100 * that.app.fn.calc.getReady(6, 6), 
 							sAngle:0, 
@@ -361,7 +362,7 @@
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							},
 							r: 3 / 100 * that.app.fn.calc.getReady(6, 6), 
 							sAngle:0, 
@@ -388,7 +389,7 @@
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							},
 							r: function(){
 								var a = $('#visitCardHeader').height();
@@ -410,7 +411,7 @@
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
 								var c = $('#visitCardFooter').height();
-								return top + ((a+b+c)/2)
+								return top + ((a+b+c)/2) - opt.area.scroll;
 							},
 							r: function(){
 								var a = $('#visitCardHeader').height();

@@ -6953,6 +6953,7 @@ body {
   top: -3px;
 }
 .visitCardFooter p {
+  border-top: 1px solid #313131;
   margin: 0;
 }
 

@@ -10,6 +10,15 @@
 	|| window.webkitRequestAnimationFrame 
 	|| window.msRequestAnimationFrame;
 
+	var getRandomColor = function() {
+		var letters = '0123456789ABCDEF'.split('');
+		var color = '#';
+		for (var i = 0; i < 6; i++ ) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
+
 	var canvasFunctions = function(){
 
 		var that = this;
@@ -767,6 +776,34 @@
 		new App().init({
 
 		});
+
+		var skillProcessInit = function(){
+
+            var process =  0;
+            var color;
+            $('.skillsList li').append('<span></span>');
+
+            var skillProcess = function(){
+                $('.skillsList li span').each(function(){
+                    color = getRandomColor();
+                    var value = parseInt(this.parentNode.getAttribute('data-val')) / 100 * (process * 2);
+                    this.setAttribute('style', 'background:' + color +';width:'+value+'%;');
+                });
+
+                if(process < 50){
+                    requestAnimationFrame(skillProcess)
+                    process++;
+                }
+            };
+
+            new skillProcess;
+        };
+
+        new skillProcessInit;
+
+	$(window).on('resize', function(){
+		$('.skillsList li span').css('background', getRandomColor);
+	});
 
 	});
 

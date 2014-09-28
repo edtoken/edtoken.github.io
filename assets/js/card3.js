@@ -329,8 +329,7 @@
 					items:[
 						{
 							x:function(){
-								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x - item.items[0].r;
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							}, 
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;
@@ -346,8 +345,7 @@
 						},
 						{
 							x:function(){
-								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x + item.items[0].r;
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							},
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;
@@ -374,8 +372,7 @@
 					items:[
 						{
 							x:function(){
-								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x - item.items[0].r;
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							},
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;
@@ -397,8 +394,7 @@
 
 						{
 							x:function(){
-								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x + item.items[0].r;
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							},
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;
@@ -433,7 +429,8 @@
 								var c1 = dataCircles.items[0];
 								var d1 = dataCircle.items[0].r;
 								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
-								return opt.area.center.x - b1;
+								// return opt.area.center.x - b1;
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							}, 
 							y:function(){
 								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
@@ -455,7 +452,8 @@
 								var c1 = dataCircles.items[1];
 								var d1 = dataCircle.items[0].r;
 								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
-								return opt.area.center.x + b1;
+								// return opt.area.center.x + b1;
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							}, 
 							y:function(){
 								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
@@ -477,7 +475,8 @@
 								var c1 = dataCircles.items[0];
 								var d1 = dataCircle.items[0].r;
 								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
-								return opt.area.center.x - b1;
+								// return opt.area.center.x - b1;
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							}, 
 							y:function(){
 								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
@@ -499,7 +498,8 @@
 								var c1 = dataCircles.items[1];
 								var d1 = dataCircle.items[0].r;
 								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
-								return opt.area.center.x + b1;
+								// return opt.area.center.x + b1;
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							}, 
 							y:function(){
 								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');

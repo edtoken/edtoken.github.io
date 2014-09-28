@@ -330,7 +330,7 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x - $('#visitCardHeader').width() / 2;
+								return opt.area.center.x - item.items[0].r;
 							}, 
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;
@@ -347,7 +347,7 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x + $('#visitCardHeader').width() / 2;
+								return opt.area.center.x + item.items[0].r;
 							},
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;
@@ -375,7 +375,7 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x - $('#visitCardHeader').width() / 2;
+								return opt.area.center.x - item.items[0].r;
 							},
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;
@@ -398,7 +398,7 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x + $('#visitCardHeader').width() / 2;
+								return opt.area.center.x + item.items[0].r;
 							},
 							y:function(){
 								var top = $('#visitCardHeader').offset().top;

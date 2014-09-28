@@ -302,10 +302,14 @@
 								return top + ((a+b+c)/2)
 							},
 							r: function(){
-								var a = $('#visitCardHeader').height();
-								var b = $('#visitCardBody').height();
-								var c = $('#visitCardFooter').height();
-								return a+b+c;
+								var a1 = $('#visitCardHeader').height();
+								var a2 = $('#visitCardBody').height();
+								var a3 = $('#visitCardFooter').height();
+								
+								var a = (a1+a2+a3) / 2;
+								var b = $('#visitCardHeader').width()/2;
+								var r = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
+								return r;
 							}, 
 							sAngle:0, 
 							eAngle:360 / 100 * that.app.fn.calc.getReady(5, 5),

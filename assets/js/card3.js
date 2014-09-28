@@ -244,8 +244,8 @@
 					strokeStyle:opt.base.colors.line1,
 					items:[
 						{
-							x1:opt.base.width / 4,
-							x2:opt.base.width / 4 + ((opt.base.width / 4 * 2) / 100 * that.app.fn.calc.getReady(3, 3)), 
+							x1:opt.base.width / 8,
+							x2:opt.base.width / 8 + ((opt.base.width / 8 * 6) / 100 * that.app.fn.calc.getReady(3, 3)), 
 							y1:function(){
 								var top = $('#visitCardHeader').offset().top;
 								var a = $('#visitCardHeader').height();

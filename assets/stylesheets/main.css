@@ -6816,7 +6816,6 @@ body {
 .visitCardHeader {
   position: relative;
   z-index: 1;
-  padding-top: 15px;
   background: #313131;
   color: #fff;
 }
@@ -6827,6 +6826,9 @@ body {
 .visitCardHeader h1,
 .visitCardHeader h2 {
   margin: 0;
+}
+.visitCardHeader h1 {
+  padding-top: 15px;
 }
 .visitCardHeader h1 span {
   font-size: 30px;
@@ -6858,7 +6860,6 @@ body {
 .visitCardBody {
   position: relative;
   background: #f5f5f3;
-  border-bottom: 1px solid #313131;
   z-index: 1;
 }
 
@@ -6944,7 +6945,6 @@ body {
   line-height: 4rem;
   background: #f5f5f3;
   text-align: center;
-  border-bottom: 1px solid #313131;
 }
 .visitCardFooter img {
   display: inline-block;

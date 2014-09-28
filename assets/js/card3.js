@@ -243,8 +243,20 @@
 						{
 							x1:opt.base.width / 4,
 							x2:opt.base.width / 4 + ((opt.base.width / 4 * 2) / 100 * that.app.fn.calc.getReady(3, 3)), 
-							y1:opt.area.center.y, 
-							y2:opt.area.center.y
+							y1:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							}, 
+							y2:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							}
 						}
 					]
 				},
@@ -257,7 +269,13 @@
 					items:[
 						{
 							x:opt.area.center.x, 
-							y:opt.area.center.y,
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							},
 							r: 3 / 100 * that.app.fn.calc.getReady(4, 4), 
 							sAngle:0, 
 							eAngle:360,
@@ -276,7 +294,13 @@
 					items:[
 						{
 							x:opt.area.center.x, 
-							y:opt.area.center.y,
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							},
 							r: function(){
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
@@ -299,9 +323,16 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x - item.items[0].r
+								// return opt.area.center.x - item.items[0].r
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							}, 
-							y:opt.area.center.y,
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							},
 							r: 3 / 100 * that.app.fn.calc.getReady(6, 6), 
 							sAngle:0, 
 							eAngle:360,
@@ -310,9 +341,16 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x + item.items[0].r
+								// return opt.area.center.x + item.items[0].r
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							},
-							y:opt.area.center.y,
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							},
 							r: 3 / 100 * that.app.fn.calc.getReady(6, 6), 
 							sAngle:0, 
 							eAngle:360,
@@ -332,9 +370,16 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x - item.items[0].r
+								// return opt.area.center.x - item.items[0].r
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							},
-							y:opt.area.center.y,
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							},
 							r: function(){
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();
@@ -349,9 +394,16 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								return opt.area.center.x + item.items[0].r
+								// return opt.area.center.x + item.items[0].r
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							},
-							y:opt.area.center.y,
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2)
+							},
 							r: function(){
 								var a = $('#visitCardHeader').height();
 								var b = $('#visitCardBody').height();

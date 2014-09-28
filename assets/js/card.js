@@ -28,7 +28,7 @@
         });
         $(window).on('scroll', function(){
             that.render();
-        });;
+        });
 
         this.getCalcData = function(){
 

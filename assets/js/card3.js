@@ -123,18 +123,21 @@
 		 */
 		this.calc.getData = function(){
 
+			that.app.ctx.canvas.width = that.app.$canvas.width();
+			that.app.ctx.canvas.height = that.app.$canvas.height();
+
 			var opt = {};
 
 			opt.base = {};
 			opt.base.width = that.app.canvas.width;
 			opt.base.height = that.app.canvas.height;
 			opt.base.colors = {
-				line1:'#999999',
-				line2:'#222222',
-				line3:'#333333',
+				line1:'#000000',
+				line2:'#000000',
+				line3:'#000000',
 				line4:'#000000',
-				point1:'#555555',
-				point2:'#222222'
+				point1:'#000000',
+				point2:'#000000'
 			};
 
 			opt.area = {};
@@ -327,7 +330,6 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								// return opt.area.center.x - item.items[0].r
 								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							}, 
 							y:function(){
@@ -345,7 +347,6 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								// return opt.area.center.x + item.items[0].r
 								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							},
 							y:function(){
@@ -374,7 +375,6 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								// return opt.area.center.x - item.items[0].r
 								return opt.area.center.x - $('#visitCardHeader').width() / 2;
 							},
 							y:function(){
@@ -398,7 +398,6 @@
 						{
 							x:function(){
 								var item = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
-								// return opt.area.center.x + item.items[0].r
 								return opt.area.center.x + $('#visitCardHeader').width() / 2;
 							},
 							y:function(){
@@ -657,6 +656,20 @@
 			}
 		};
 
+		/**
+		 * create canvas events
+		 */
+		this.makeEvents = function(){
+
+			$(window).on('resize', function(){
+		            that.render();
+		        });
+		        $(window).on('scroll', function(){
+		            that.render();
+		        });
+
+		};
+
 		this.render = function(){
 
 			var d = this.fn.calc.getData();
@@ -742,6 +755,7 @@
 			this.ctx.canvas.width = this.$canvas.width();
 			this.ctx.canvas.height = this.$canvas.height();
 
+			this.makeEvents();
 			this.render();
 			this.log({msg:'[F] init'});
 		};

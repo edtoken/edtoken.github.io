@@ -6784,7 +6784,7 @@ body {
 
 body {
   color: #424242;
-  background: #ccc;
+  background: #fff;
   padding: 0;
   margin: 0;
 }
@@ -6810,7 +6810,7 @@ body {
 .visitCardHeader.disable,
 .visitCardBody.disable,
 .visitCardFooter.disable {
-  opacity: 0.1;
+  opacity: 0;
 }
 
 .visitCardHeader {

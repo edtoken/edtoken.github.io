@@ -54,7 +54,7 @@
 
 		this.app.ev.scroll.scrollOpacityHomeRow = function(){
 			if(that.app.attributes.scroll <= that.app.n.$about.height()){
-				var a = that.app.n.$about.height() - that.app.attributes.scroll;
+				var a = that.app.n.$about.height() - that.app.attributes.scroll * 0.5;
 				var percent = a * 100 / that.app.n.$about.height();
 				that.app.n.$about.css({
 					'opacity':percent/ 100

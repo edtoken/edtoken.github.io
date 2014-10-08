@@ -1,313 +1,791 @@
-(function(){
+(function($){
 
-    window.requestAnimationFrame = window.requestAnimationFrame ||
-                                        window.mozRequestAnimationFrame ||
-                                        window.webkitRequestAnimationFrame ||
-                                        window.msRequestAnimationFrame;
+	/**
+	 * calculate info
+	 * http://www.litunovskiy.com/gamedev/intersection_of_two_circles/
+	 */
 
-    var getRandomColor = function() {
-        var letters = '0123456789ABCDEF'.split('');
-        var color = '#';
-        for (var i = 0; i < 6; i++ ) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
+	window.requestAnimationFrame = window.requestAnimationFrame 
+	|| window.mozRequestAnimationFrame 
+	|| window.webkitRequestAnimationFrame 
+	|| window.msRequestAnimationFrame;
 
-    var mainCanvas = function(){
+	var getRandomColor = function() {
+		var letters = '0123456789ABCDEF'.split('');
+		var color = '#';
+		for (var i = 0; i < 6; i++ ) {
+			color += letters[Math.floor(Math.random() * 16)];
+		}
+		return color;
+	}
 
-        var that = this;
-        this.canvas = document.getElementById('mainCanvas');
-        this.$canvas = $(this.canvas);
-        this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = $(window).width();
-        this.canvas.height = $(window).height();
+	var canvasFunctions = function(){
 
-        $(window).on('resize', function(){
-            that.render();
-        });
-        $(window).on('scroll', function(){
-            that.render();
-        });
+		var that = this;
+		this.calc = {};
+		this.render = {};
 
-        this.getCalcData = function(){
+		/**
+		 * render line
+		 */
+		this.render.line = function(data){
+			that.app.ctx.lineWidth = data.lineWidth;
+			that.app.ctx.strokeStyle = data.strokeStyle;
+			for(var i=0; i<data.items.length;i++){
+				that.app.ctx.beginPath();
+				data.items[i] = that.app.fn.calc.getValues(data.items[i]);
+				that.app.ctx.moveTo(data.items[i].x1, data.items[i].y1);
+				that.app.ctx.lineTo(data.items[i].x2, data.items[i].y2);
+				that.app.ctx.stroke();
+			}
+		};
 
-            var mobile = $(window).width() < 980;
-            this.canvas.width = $(window).width();
-            this.canvas.height = $(window).height();
+		/**
+		 * render ARC
+		 */
+		this.render.arc = function(data){
+			that.app.ctx.fillStyle = data.background;			
+			for(var i=0; i< data.items.length;i++){
+				that.app.ctx.beginPath();
+				data.items[i] = that.app.fn.calc.getValues(data.items[i]);
+				that.app.ctx.arc(
+					data.items[i].x, 
+					data.items[i].y, 
+					data.items[i].r, 
+					data.items[i].sAngle * (Math.PI / 180), 
+					data.items[i].eAngle * (Math.PI / 180), 
+					data.items[i].counterclockwise
+				);
+				if(!data.strokeStyle && !data.lineWidth){
+					that.app.ctx.fill();				
+				}else{
+					that.app.ctx.strokeStyle = data.strokeStyle;
+					that.app.ctx.stroke();			
+				}
+			}
+			that.app.log({msg:'[F] [ARC] render ', data:data});
+		};
 
-            var top  = window.pageYOffset || document.documentElement.scrollTop;
-            var headerData = {
-                text:Math.ceil(this.app.$header.width() / 100 * this.app.attributes.step),
-                x1:this.app.$header.offset().left,
-                y:this.app.$header.offset().top - 40 - top,
-                x2:this.app.$header.offset().left + this.app.$header.width(),
-                process:this.app.$header.offset().left + this.app.$header.width() / 100 * this.app.attributes.step,
-                bottom:this.app.$header.offset().top - top,
-                top:(this.app.$header.offset().top - (45 / 100 * this.app.attributes.step)) - top,
-                sub:{
-                    top:this.app.$header.offset().top - (25 / 100 * this.app.attributes.step) - top,
-                    left:{
-                        x1:this.app.$header.offset().left,
-                        x2:this.app.$header.offset().left + this.app.$header.width() / 2,
-                        y:this.app.$header.offset().top - 20 - top,
-                        process:this.app.$header.offset().left + (
-                            (this.app.$header.width() / 4 * 3) / 100 * this.app.attributes.step
-                            ),
-                        text:(this.app.$header.offset().left + (
-                            (this.app.$header.width() / 4 * 3) / 100 * this.app.attributes.step
-                            ) - this.app.$header.offset().left).toFixed(2)
-                    },
-                    right:{
-                        x1:this.app.$header.offset().left + this.app.$header.width() + 5,
-                        x2:this.app.$header.offset().left + this.app.$header.width() / 4 * 3,
-                        y:this.app.$header.offset().top - 20 - top,
-                        process:this.app.$header.offset().left + this.app.$header.width() - (
-                            (this.app.$header.width() / 4 * 1 / 100 * this.app.attributes.step)
-                            )
-                    }
-                }
-            };
+		/**
+		 * calculate step ready
+		 */
+		this.calc.getReady = function(start, end){
+			
+			if(start > that.app.attributes.r.step){
+				return 0;
+			}
 
-            var getLeftData = {
-                x1:this.app.$body.offset().left - 12,
-                y1:this.app.$body.offset().top + this.app.$body.height() - top,
-                x2:this.app.$header.offset().left - 12,
-                x3:false,
-                y2:this.app.$header.offset().top - top,
-                process:this.app.$body.offset().top - top + this.app.$body.height() - ((this.app.$body.height() + this.app.$header.height() )/ 100 * this.app.attributes.step),
-                bottom:this.app.$body.offset().left,
-                top:this.app.$body.offset().left - ( 17 / 100 * this.app.attributes.step),
-                text:this.app.$header.height() + this.app.$body.height() - this.app.$header.offset().top,
+			if(that.app.attributes.r.step === end){
+				return that.app.attributes.r.percent;
+			}
 
-                sector:{
-                    y1:this.app.$body.offset().top - top
-                }
-            };
+			if(that.app.attributes.r.step > end){
+				return 100;
+			}
 
-            var textPositions = {
-                header:{
-                    position:this.app.$body.width() / 2 + this.app.$body.offset().left,
-                    top:this.app.$header.offset().top - 50 - top,
-                    positionLeft:this.app.$header.offset().left + this.app.$header.width() / 3,
-                    positionRight:this.app.$header.offset().left + (this.app.$header.width() / 4 * 3 + (this.app.$header.width() / 4 / 2)),
-                    topnext:this.app.$header.offset().top - 30 - top
-                },
-                left:{
-                    left:this.app.$body.offset().left - 12,
-                    top:(this.app.$header.height() + this.app.$body.height()) / 2 - top
-                }
-            }
+			var time = 0;
+			var currentTimeProcess = 0;
+			var currentTime = that.app.attributes.r.steps[that.app.attributes.r.step];
 
-            if(mobile){
-                headerData.top = headerData.top + 20;
-                headerData.y = headerData.y + 20;
-                textPositions.header.top = textPositions.header.top + 20;
-                getLeftData.x3 = this.app.nodes.$skillsList.offset().top - top;
-            }
+			for(var i=0; i< end; i++){
 
-            var lineData = {
-                y:0,
-                y1:this.ctx.canvas.height,
-                left:50
-            };
+				var step = that.app.attributes.r.steps[i];
+				if(i < that.app.attributes.r.step){
+					currentTimeProcess += step;
+				}
 
-            return {
-                mobile:mobile,
-                header:headerData,
-                left:getLeftData,
-                texts:textPositions,
-                line:lineData
-            }
-        };
+				time += step;
+			}
 
-        this.render = function(){
+			var currentTimeP = currentTime / 100 * that.app.attributes.r.percent;
+			currentTimeProcess += currentTimeP;
+			var percent = currentTimeProcess * 100 / time;
+			return percent;
+		}
 
-            this.ctx.beginPath();
-            this.ctx.clearRect(0,0,this.ctx.canvas.width, this.ctx.canvas.height);
+		/**
+		 * returned compile item values
+		 */
+		this.calc.getValues = function(obj){
+			for(var n in obj){
+				if(typeof obj[n] === 'function'){
+					obj[n] = obj[n]();
+				}
+			}
+			return obj;
+		}
+		/**
+		 * returned item obj
+		 */
+		this.calc.getItem = function(items, name){
+			for(var n in items){
+				if(items[n].name === name){
+					var item = that.app.fn.calc.getValues(items[n]);
+					return item;
+				}
+			}
+			return false;
+		}
 
-            var color = '#178a3b';
-            var data = this.getCalcData();
+		/**
+		 * calculate canvas data
+		 */
+		this.calc.getData = function(){
 
-            // home line
-            this.ctx.lineWidth = 1;
-            this.ctx.strokeStyle = color
-            this.ctx.fillStyle = color;
+			that.app.ctx.canvas.width = that.app.$canvas.width();
+			that.app.ctx.canvas.height = that.app.$canvas.height();
 
-            this.ctx.moveTo(data.header.x1 - 5, data.header.y);
-            this.ctx.lineTo(data.header.process + 5, data.header.y);
-            that.ctx.stroke();
+			var opt = {};
 
-            if(!data.mobile){
-                // sub header
-                // left 
-                this.ctx.beginPath();
-                this.ctx.moveTo(data.header.sub.left.x1 - 5, data.header.sub.left.y);
-                this.ctx.lineTo(data.header.sub.left.process, data.header.sub.left.y);
-                that.ctx.stroke();
-                // right
-                this.ctx.beginPath();
-                this.ctx.moveTo(data.header.sub.right.x1, data.header.sub.right.y);
-                this.ctx.lineTo(data.header.sub.right.process, data.header.sub.right.y);
-                that.ctx.stroke();
+			opt.base = {};
+			opt.base.width = that.app.canvas.width;
+			opt.base.height = that.app.canvas.height;
+			opt.base.colors = {
+				line1:'#000000',
+				line2:'#000000',
+				line3:'#000000',
+				line4:'#000000',
+				point1:'#000000',
+				point2:'#000000'
+			};
 
-                // vertical sub header
-                this.ctx.beginPath();
-                this.ctx.moveTo(data.header.sub.right.x2, data.header.bottom);
-                this.ctx.lineTo(data.header.sub.right.x2, data.header.sub.top);
-                that.ctx.stroke();
-            }
+			opt.area = {};
+			opt.area.scroll = $(window).scrollTop();
+			opt.area.x1 = 20;
+			opt.area.y1 = 20;
+			opt.area.x2 = that.app.canvas.width - 20;
+			opt.area.y2 = that.app.canvas.height - 20;
+			opt.area.width =  that.app.canvas.width - 40;
+			opt.area.height =  that.app.canvas.height - 40;
+			opt.area.center = {x:that.app.canvas.width / 2, y:that.app.canvas.height / 2};
 
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.header.x1, data.header.bottom);
-            this.ctx.lineTo(data.header.x1, data.header.top);
-            that.ctx.stroke();
+			/**
+			 * render items
+			 */
+			opt.items = [
+				// {
+				// 	name:'',
+				// 	type:'',
+				// 	step:{start:1,end:1},
+				// 	background:
+				// 	items:
+				// },
+				{
+					name:'startPoints',
+					type:'arc',
+					step:{start:1, end:10, full:false},
+					background:opt.base.colors.point1,
+					items:[
+						{
+							x:opt.area.x1, 
+							y:opt.area.y1,
+							r: 3 / 100 * that.app.fn.calc.getReady(1, 1), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						},
+						{
+							x:opt.area.x1, 
+							y:opt.area.y2,
+							r: 3 / 100 * that.app.fn.calc.getReady(1, 1), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						},
+						{
+							x:opt.area.x2, 
+							y:opt.area.y1,
+							r: 3 / 100 * that.app.fn.calc.getReady(1, 1), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						},
+						{
+							x:opt.area.x2, 
+							y:opt.area.y2,
+							r: 3 / 100 * that.app.fn.calc.getReady(1, 1), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						}
+					]
+				},
 
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.header.x2, data.header.bottom);
-            this.ctx.lineTo(data.header.x2, data.header.top);
-            that.ctx.stroke();
+				{
+					name:'startLines',
+					type:'line',
+					step:{start:2, end:10, full:false},
+					lineWidth:1,
+					strokeStyle:opt.base.colors.line1,
+					items:[
+						{
+							x1:opt.area.x1, 
+							x2:opt.area.x1 + ((opt.area.x2 - opt.area.x1) / 100 * that.app.fn.calc.getReady(2, 2)), 
+							y1:opt.area.y1, 
+							y2:opt.area.y1
+						},
+						{
+							x1:opt.area.x2, 
+							x2:opt.area.x2, 
+							y1:opt.area.y1, 
+							y2:opt.area.y1 + ((opt.area.y2 - opt.area.y1) / 100 * that.app.fn.calc.getReady(2, 2))
+						},
+						{
+							x1:opt.area.x1, 
+							x2:opt.area.x1, 
+							y1:opt.area.y1, 
+							y2:opt.area.y1 + ((opt.area.y2 - opt.area.y1) / 100 * that.app.fn.calc.getReady(2, 2))
+						},
+						{
+							x1:opt.area.x1, 
+							x2:opt.area.x1 + ((opt.area.x2 - opt.area.x1) / 100 * that.app.fn.calc.getReady(2, 2)), 
+							y1:opt.area.y2, 
+							y2:opt.area.y2
+						}
+					]
 
-            // left size line
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.left.x1, data.left.y1 + 5);
-            this.ctx.lineTo(data.left.x2, data.left.process - 20);
-            that.ctx.stroke();
+				},
 
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.left.bottom, data.left.y1);
-            this.ctx.lineTo(data.left.top, data.left.y1);
-            that.ctx.stroke();
+				{
+					name:'baseLine',
+					type:'line',
+					step:{start:3, end:10},
+					lineWidth:1,
+					strokeStyle:opt.base.colors.line1,
+					items:[
+						{
+							x1:opt.base.width / 8,
+							x2:opt.base.width / 8 + ((opt.base.width / 8 * 6) / 100 * that.app.fn.calc.getReady(3, 3)), 
+							y1:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							}, 
+							y2:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							}
+						}
+					]
+				},
 
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.left.bottom, data.left.y2);
-            this.ctx.lineTo(data.left.top, data.left.y2);
-            that.ctx.stroke();
+				{
+					name:'baseLineStartPoint',
+					type:'arc',
+					step:{start:4, end:10},
+					background:opt.base.colors.point1,
+					items:[
+						{
+							x:opt.area.center.x, 
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							},
+							r: 3 / 100 * that.app.fn.calc.getReady(4, 4), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						}
+					]
+				},
 
-            this.ctx.beginPath();
-            this.ctx.moveTo(data.left.bottom, data.left.sector.y1);
-            this.ctx.lineTo(data.left.top, data.left.sector.y1);
-            that.ctx.stroke();
+				{
+					name:'baseLineFirstArc',
+					type:'arc',
+					step:{start:5, end:10},
+					background:'transparent',
+					strokeStyle:opt.base.colors.line1,
+					lineWidth:1,
+					items:[
+						{
+							x:opt.area.center.x, 
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							},
+							r: function(){
+								var a1 = $('#visitCardHeader').height();
+								var a2 = $('#visitCardBody').height();
+								var a3 = $('#visitCardFooter').height();
+								
+								var a = (a1+a2+a3) / 2;
+								var b = $('#visitCardHeader').width()/2;
+								var r = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
+								return r;
+							}, 
+							sAngle:0, 
+							eAngle:360 / 100 * that.app.fn.calc.getReady(5, 5),
+							counterclockwise:false
+						}
+					]
+				},
 
-            if(data.mobile){
-                this.ctx.beginPath();
-                this.ctx.moveTo(data.left.bottom, data.left.x3);
-                this.ctx.lineTo(data.left.top, data.left.x3);
-                that.ctx.stroke();
-            }
+				{
+					name:'baseLineSecondPoints',
+					type:'arc',
+					step:{start:6, end:10},
+					background:opt.base.colors.point1,
+					items:[
+						{
+							x:function(){
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
+							}, 
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							},
+							r: 3 / 100 * that.app.fn.calc.getReady(6, 6), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						},
+						{
+							x:function(){
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
+							},
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							},
+							r: 3 / 100 * that.app.fn.calc.getReady(6, 6), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						}
+					]
+				},
 
-            /**
-             * render circles
-             */
-            if(this.app.attributes.step > 60){
-                
-                this.ctx.beginPath();
-                this.ctx.arc(data.left.x2 - 20, data.left.y2, 15, 0, 2 * Math.PI, false);
-                this.ctx.fill();
+				{
+					name:'baseLineSecondArcs',
+					type:'arc',
+					step:{start:7, end:10},
+					background:'transparent',
+					strokeStyle:opt.base.colors.line1,
+					lineWidth:1,
+					items:[
+						{
+							x:function(){
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
+							},
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							},
+							r: function(){
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return (a+b+c) / 2;
+							}, 
+							sAngle:0, 
+							eAngle:360 / 100 * that.app.fn.calc.getReady(7, 7),
+							counterclockwise:false
+						},
 
-                this.ctx.beginPath();
-                this.ctx.arc(data.left.x1 - 20, data.left.y1, 15, 0, 2 * Math.PI, false);
-                this.ctx.fill();
+						{
+							x:function(){
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
+							},
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							},
+							r: function(){
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return ((a+b+c) / 2) / 100 * that.app.fn.calc.getReady(7, 7);
+							}, 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						}
+					]
+				},
 
-                this.ctx.beginPath();
-                this.ctx.arc(data.left.x1 - 20, data.left.sector.y1, 15, 0, 2 * Math.PI, false);
-                this.ctx.fill();
+				{
+					name:'baseLineIntersectionPoints',
+					type:'arc',
+					step:{start:8, end:10},
+					background:opt.base.colors.point1,
+					items:[
+						{
+							x:function(){
+								var dataCircle = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var c1 = dataCircles.items[0];
+								var d1 = dataCircle.items[0].r;
+								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
+								// return opt.area.center.x - b1;
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
+							}, 
+							y:function(){
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var dataCircleItem = that.app.fn.calc.getValues(dataCircles.items[0]);
+								var items = that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var a = items.items[0].x - dataCircleItem.x;
+								var b = Math.sqrt(Math.pow(dataCircleItem.r, 2) - Math.pow(a, 2));
+								return dataCircleItem.y + b;
+							},
+							r: 3 / 100 * that.app.fn.calc.getReady(8, 8), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						},
+						{
+							x:function(){
+								var dataCircle = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var c1 = dataCircles.items[1];
+								var d1 = dataCircle.items[0].r;
+								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
+								// return opt.area.center.x + b1;
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
+							}, 
+							y:function(){
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var dataCircleItem = that.app.fn.calc.getValues(dataCircles.items[1]);
+								var items = that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var a = items.items[1].x - dataCircleItem.x;
+								var b = Math.sqrt(Math.pow(dataCircleItem.r, 2) - Math.pow(a, 2));
+								return dataCircleItem.y + b;
+							},
+							r: 3 / 100 * that.app.fn.calc.getReady(8, 8), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						},
+						{
+							x:function(){
+								var dataCircle = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var c1 = dataCircles.items[0];
+								var d1 = dataCircle.items[0].r;
+								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
+								// return opt.area.center.x - b1;
+								return opt.area.center.x - $('#visitCardHeader').width() / 2;
+							}, 
+							y:function(){
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var dataCircleItem = that.app.fn.calc.getValues(dataCircles.items[0]);
+								var items = that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var a = items.items[0].x - dataCircleItem.x;
+								var b = Math.sqrt(Math.pow(dataCircleItem.r, 2) - Math.pow(a, 2));
+								return dataCircleItem.y - b;
+							},
+							r: 3 / 100 * that.app.fn.calc.getReady(8, 8), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						},
+						{
+							x:function(){
+								var dataCircle = that.app.fn.calc.getItem(opt.items, 'baseLineFirstArc');
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var c1 = dataCircles.items[1];
+								var d1 = dataCircle.items[0].r;
+								var b1 = (Math.pow(d1, 2) - Math.pow(c1.r, 2) + Math.pow(d1, 2)) / (2 * d1);
+								// return opt.area.center.x + b1;
+								return opt.area.center.x + $('#visitCardHeader').width() / 2;
+							}, 
+							y:function(){
+								var dataCircles = that.app.fn.calc.getItem(opt.items, 'baseLineSecondArcs');
+								var dataCircleItem = that.app.fn.calc.getValues(dataCircles.items[1]);
+								var items = that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var a = items.items[1].x - dataCircleItem.x;
+								var b = Math.sqrt(Math.pow(dataCircleItem.r, 2) - Math.pow(a, 2));
+								return dataCircleItem.y - b;
+							},
+							r: 3 / 100 * that.app.fn.calc.getReady(8, 8), 
+							sAngle:0, 
+							eAngle:360,
+							counterclockwise:false
+						}
+					]
+				},
 
-                if(data.left.x3){
-                    this.ctx.beginPath();
-                    this.ctx.arc(data.left.x1 - 20, data.left.x3, 15, 0, 2 * Math.PI, false);
-                    this.ctx.fill();
-                }
+				{
+					name:'baseCardLine',
+					type:'line',
+					step:{start:9, end:11},
+					lineWidth:2,
+					strokeStyle:opt.base.colors.line2,
+					items:[
+						{
+							x1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[0];
+								return item.x;
+							},
+							x2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[1];
+								var itemFirst = items.items[0];
+								return itemFirst.x + (item.x - itemFirst.x) / 100 * that.app.fn.calc.getReady(9, 9);
+							},
+							y1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[0];
+								return item.y;
+							}, 
+							y2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[1];
+								return item.y;
+							}
+						},
 
-                // render move line
-                // this.ctx.lineWidth = 1;
-                // this.ctx.strokeStyle = ' #000';
-                // this.ctx.beginPath();
-                // this.ctx.moveTo(data.line.left, data.line.y);
-                // this.ctx.lineTo(data.line.left, data.line.y1);
-                // console.log(data.line);
-                // that.ctx.stroke();
+						{
+							x1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[2];
+								return item.x;
+							},
+							x2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[3];
+								var itemFirst = items.items[2];
+								return itemFirst.x + (item.x - itemFirst.x) / 100 * that.app.fn.calc.getReady(9, 9);
+							},
+							y1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[2];
+								return item.y;
+							}, 
+							y2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[3];
+								return item.y;
+							}
+						},
 
-                // // this.ctx.lineWidth = 1;
-                // this.ctx.strokeStyle = color
-            }
+						{
+							x1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[2];
+								return item.x;
+							},
+							x2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[2];
+								return item.x;
+							},
+							y1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[2];
+								return item.y;
+							}, 
+							y2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[2];
+								var itemFirst = items.items[1];
+								return item.y + (itemFirst.y - item.y) / 100 * that.app.fn.calc.getReady(9, 9);
+							}
+						},
 
-            if(this.app.attributes.step > 60){
+						{
+							x1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[1];
+								return item.x;
+							},
+							x2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[1];
+								return item.x;
+							},
+							y1:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[2];
+								return item.y;
+							}, 
+							y2:function(){
+								var items =  that.app.fn.calc.getItem(opt.items, 'baseLineIntersectionPoints');
+								var item = items.items[1];
+								var itemFirst = items.items[2];
+								return itemFirst.y + (item.y - itemFirst.y) / 100 * that.app.fn.calc.getReady(9, 9);
+							}
+						}
+					]
+				}
 
-                that.ctx.font = "500 12px PT Sans";
-                that.ctx.fillStyle = '#333';
-                that.ctx.textAlign = 'center';
-                that.ctx.textBaseline = 'middle';
+			];
 
-                that.ctx.fillText(data.header.text + 'px', data.texts.header.position, data.texts.header.top);
-                
-                if(!data.mobile){
-                    that.ctx.fillText(data.header.sub.left.text + 'px', data.texts.header.positionLeft, data.texts.header.topnext);
-                    that.ctx.fillText(this.app.attributes.step / 4 + '%', data.texts.header.positionRight, data.texts.header.topnext);
-                }
-                
-                that.ctx.fillText('D', data.left.x2 - 20, data.left.y2);
-                that.ctx.fillText('C', data.left.x1 - 20, data.left.sector.y1);
+			
 
-                if(data.left.x3){
-                    that.ctx.fillText('B', data.left.x1 - 20, data.left.x3);
-                }
+			return opt;
+		};
+	};
+	
+	var App = function(){
 
-                that.ctx.fillText('A', data.left.x1 - 20, data.left.y1);
-            
+		var that = this;
+		this.attributes = {
+			debug:false,
+			r:{
+				speed:1,
+				process:0,
+				step:1,
+				percent:0,
+				steps:[10,20,10,10,50,5,50,10,100]
+			}
+		};
+		
+		this.nodes = {};
 
-            }
+		this.log = function(data){
+			if(this.attributes.debug){
+				if(data.data){
+					console.info('> ', data.msg, data.data);
+				}else{
+					console.info('> ', data.msg);
+				}
+			}
+		};
 
+		/**
+		 * create canvas events
+		 */
+		this.makeEvents = function(){
 
-            if(this.app.attributes.step < 100){
-                requestAnimationFrame(function(){
-                    that.app.attributes.step++;
-                    that.render();
-                });
-            }
-            
-        };
+			$(window).on('resize', function(){
+		            that.render();
+		        });
+		        $(window).on('scroll', function(){
+		            that.render();
+		        });
 
-        this.render();
+		};
 
-    };
+		this.render = function(){
 
-    var App = function(){
+			var d = this.fn.calc.getData();
+			var c = this.ctx;
+			c.clearRect(0,0,d.base.width, d.base.height);
 
-        var that = this;
-        this.attributes = {
-            step:1
-        };
-        
-        return {
+			for(var item in d.items){
+				switch(d.items[item].name){
 
-            initialize:function(options){
-                
-                that.attributes = $.extend(options, that.attributes);
-                that.header = document.getElementById('visitCardHeader');
-                that.$header = $(that.header);
-                that.body = document.getElementById('visitCardBody');
-                that.$body = $(that.body);
-                that.nodes = {};
-                that.nodes.$contactList = $('.contactList');
-                that.nodes.$skillsList = $('.skillsList');
-                that.nodes.$linkedin = $('.linkedin');
-                that.nodes.$github = $('.github');
-                that.nodes.$phone = $('.phone');
-                that.nodes.$skype = $('.skype');
-                that.nodes.$email = $('.email');
-                that.nodes.$address = $('.address');
+					default:
 
-                mainCanvas.prototype.app = that;
-                that.maincanvas = new mainCanvas();
+						if(typeof d.items[item].step.full !== 'undefined'
+							&& d.items[item].step.full === false
+							&& d.items[item].step.end <= this.attributes.r.step
+						){
+							continue;
+						}
 
-            }
-        }
-    };
+						if(d.items[item].step.start && d.items[item].step.start > this.attributes.r.step){
+							continue;
+						}
 
-    $(document).ready(function(){
+						switch(d.items[item].type){
 
-        var skillProcessInit = function(){
+							case 'line':
+								this.fn.render.line(d.items[item]);
+								this.log({msg:'[F] render items type: LINE', data:d.items[item]});
+								break;
+
+							case 'arc':
+								this.fn.render.arc(d.items[item]);
+								this.log({msg:'[F] render items type: ARC', data:d.items[item]});
+								break;
+
+							default:
+
+								this.log({msg:'[F] render items', data:d.items[item]});
+								break;
+						}
+
+						break;
+				}
+			}
+
+			if(this.attributes.r.step <= this.attributes.r.steps.length){
+
+				requestAnimationFrame(function(){
+				    if(that.attributes.r.process < that.attributes.r.steps[that.attributes.r.step - 1]){
+				        that.attributes.r.process++;
+				        that.attributes.r.percent = that.attributes.r.process * 100 / that.attributes.r.steps[that.attributes.r.step - 1];
+				    }else{
+				        that.attributes.r.process = 0;
+				        that.attributes.r.percent = 0;
+				        that.attributes.r.step++;
+				    }
+				    
+				    // TODO
+				    // if(that.attributes.r.step <= that.attributes.r.steps.length){
+				        that.render();
+				    // }
+
+				    	if(that.attributes.r.step > that.attributes.r.steps.length){
+				    		that.renderFinal();
+					}
+				});
+
+			}
+
+			this.renderFinal = function(){
+				$('#visitCardHeader').removeClass('disable');
+				$('#visitCardBody').removeClass('disable');
+				$('#visitCardFooter').removeClass('disable');
+			}
+
+			this.log({msg:'[F] render'});
+			this.log({msg:'[D] render data', data:d});
+		};
+
+		this.init = function(options){
+
+			if("getContext" in document.createElement("canvas") === false){
+				return false;
+        		}
+
+        		this.fn.app = this;
+			this.attributes = $.extend(this.attributes, options);
+			this.canvas = document.getElementById('mainCanvas');
+			this.$canvas = $(this.canvas);
+			this.ctx = this.canvas.getContext('2d');
+			this.ctx.canvas.width = this.$canvas.width();
+			this.ctx.canvas.height = this.$canvas.height();
+
+			this.makeEvents();
+			this.render();
+			this.log({msg:'[F] init'});
+		};
+	};
+	
+	$(document).ready(function(){
+
+		App.prototype.fn = new canvasFunctions();
+		new App().init({
+
+		});
+
+		var skillProcessInit = function(){
 
             var process =  0;
             var color;
@@ -331,14 +809,10 @@
 
         new skillProcessInit;
 
-        new App().initialize({
-            debug:false
-        });
+	$(window).on('resize', function(){
+		$('.skillsList li span').css('background', getRandomColor);
+	});
 
-        $(window).on('resize', function(){
-            $('.skillsList li span').css('background', getRandomColor);
-       });
+	});
 
-    });
-
-})(jQuery);
+})(jQuery)

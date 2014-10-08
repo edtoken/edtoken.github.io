@@ -43,10 +43,10 @@ $link-hover-color:      darken($link-color, 15%) !default;
 //
 //## Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:  "PT Sans", sans-serif !default;
-$font-family-serif:       "PT Sans", serif !default;
+$font-family-sans-serif:  "AvenirNextCondensed-Regular", sans-serif !default;
+$font-family-serif:       "AvenirNextCondensed-Regular", serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
-$font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
+$font-family-monospace:  "AvenirNextCondensed-Regular", monospace !default;
 $font-family-base:        $font-family-sans-serif !default;
 
 $font-size-base:          14px !default;

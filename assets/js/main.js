@@ -32,10 +32,10 @@
 					if(node){
 						$node = $(node);
 						if(scrollSize + headHeight > $node.offset().top && scrollSize + headHeight < $node.height() + $node.offset().top){
-							// that.app.e.trigger('setpage', name);	
 							// TODO
+							// that.app.e.trigger('setpage', name);	
 							that.app.attributes.page = name;
-							window.location.hash = name;
+							// window.location.hash = name;
 						}
 					}
 				}
@@ -73,7 +73,7 @@
 					that.app.timers.pagescroll = $('html, body').animate({
 						scrollTop:$(node).offset().top - that.app.n.$siteheader.height()
 					}, that.app.attributes.scrollspeed, function(){
-						window.location.hash = name;
+						// window.location.hash = name;
 						that.app.attributes.page = name;
 						delete that.app.timers.pagescroll; 
 					});

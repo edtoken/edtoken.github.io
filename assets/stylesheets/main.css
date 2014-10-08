@@ -6894,6 +6894,9 @@ body {
 .aboutWrap {
   background: #333;
   color: #fff;
+  -webkit-transition: opacity 0.5s ease;
+  -o-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
 }
 .aboutWrap p {
   font-size: 24px;

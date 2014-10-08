@@ -133,6 +133,8 @@ body
 {
     background:#333;
     color:#fff;
+    @include transition(opacity .5s ease);
+    
     p 
     {
         font-size: 24px;

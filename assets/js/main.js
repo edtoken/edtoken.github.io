@@ -53,7 +53,13 @@
 		};
 
 		this.app.ev.scroll.scrollOpacityHomeRow = function(){
-			// console.log('a');
+			if(that.app.attributes.scroll <= that.app.n.$about.height()){
+				var a = that.app.n.$about.height() - that.app.attributes.scroll;
+				var percent = a * 100 / that.app.n.$about.height();
+				that.app.n.$about.css({
+					'opacity':percent/ 100
+				});
+			}
 		};
 	};
 
@@ -133,6 +139,8 @@
 				that.n.$siteheader = $(that.n.siteheader);
 				that.n.nextRowFirst = document.getElementById('nextRowFirst');
 				that.n.$nextRowFirst = $(that.n.nextRowFirst);
+				that.n.about = document.getElementById('n-about');
+				that.n.$about = $(that.n.about);
 
 				that.fn = new AppFunctions();
 				that.mod = new AppMods();

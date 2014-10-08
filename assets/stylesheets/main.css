@@ -6803,9 +6803,20 @@ button.close {
   cursor: pointer;
   text-align: center;
 }
+.nextRow:hover {
+  color: #db56db;
+}
+.nextRow > span i {
+  padding-top: 15px;
+  padding-top: 1.5rem;
+  text-decoration: none;
+  display: block;
+  text-align: center;
+}
 
 .siteHeaderWrap {
   background: #fff;
+  border-bottom: 1px solid #333;
 }
 .siteHeaderWrap .homelink {
   display: block;
@@ -6872,8 +6883,17 @@ button.close {
   list-style: none;
 }
 .skillsListWrap ul li {
-  min-height: 200px;
-  min-height: 20rem;
+  text-align: left;
+  min-height: 80px;
+  min-height: 8rem;
+  padding-top: 30px;
+  padding-top: 3rem;
+}
+.skillsListWrap ul li span {
+  background: #db5656;
+  height: 1px;
+  display: block;
+  width: auto;
 }
 
 .canvasSliderWrap {
@@ -7011,8 +7031,7 @@ button.close {
 
   .nextRow {
     position: absolute;
-    bottom: 10px;
-    bottom: 1rem;
+    bottom: 0;
     width: 100%;
     left: 0;
     right: 0;

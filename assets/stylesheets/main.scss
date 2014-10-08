@@ -17,16 +17,30 @@
 {
     cursor:pointer;
     text-align:center;
+    
+    &:hover
+    {
+        color:rgba(219,86,219, 1);
+    }
 
     & > span 
     {
-
+        
+        i
+        {
+            padding-top:15px;
+            padding-top:1.5rem;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
     }
 }
 
 .siteHeaderWrap
 {
     background:#fff;
+    border-bottom:1px solid #333;
 
     .homelink 
     {
@@ -108,8 +122,19 @@
 
         li 
         {
-            min-height:200px;
-            min-height:20rem;
+            text-align: left;
+            min-height: 80px;
+            min-height: 8rem;
+            padding-top:30px;
+            padding-top:3rem;
+
+            span 
+            {
+                background:rgba(219,86,86,1);
+                height:1px;
+                display: block;
+                width:auto;
+            }
         }
     } 
     

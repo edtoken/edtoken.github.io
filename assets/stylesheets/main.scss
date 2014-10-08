@@ -133,8 +133,8 @@ body
 {
     background:#333;
     color:#fff;
-    @include transition(opacity .5s ease);
-    
+    @include transition(opacity .1s ease);
+
     p 
     {
         font-size: 24px;
@@ -152,18 +152,8 @@ body
         li 
         {
             text-align: left;
-            min-height: 80px;
-            min-height: 8rem;
-            padding-top:30px;
-            padding-top:3rem;
-
-            span 
-            {
-                background:rgba(219,86,86,1);
-                height:1px;
-                display: block;
-                width:auto;
-            }
+            height:150px;
+            line-height: 150px;
         }
     } 
     

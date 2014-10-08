@@ -147,6 +147,8 @@
 
 				that.fn.makeEvents();
 
+				$('.jtcradial').canvasRadialProcessBar();
+
 				var hash = window.location.hash;
 				if(hash.length > 0){
 					that.e.trigger('setpage', hash.replace('#', ''));	

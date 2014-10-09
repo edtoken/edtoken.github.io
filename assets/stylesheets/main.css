@@ -6908,6 +6908,9 @@ body {
   -o-transition: all 0.1s ease;
   transition: all 0.1s ease;
 }
+.aboutFixed .h100p {
+  height: 100%;
+}
 
 .homeHello {
   font-size: 100px;

@@ -6772,6 +6772,20 @@ button.close {
   width: 100%;
 }
 
+@-webkit-keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    -webkit-transform: translateY(0);
+  }
+  20% {
+    -webkit-transform: translateY(-8px);
+  }
+  40% {
+    -webkit-transform: translateY(0px);
+  }
+  90% {
+    -webkit-transform: translateY(-8px);
+  }
+}
 @font-face {
   font-family: 'AvenirNextCondensed-Regular';
   src: url("../../assets/fonts/AvenirNextCondensed.eot");
@@ -6788,20 +6802,295 @@ button.close {
   font-family: 'AvenirNextCondensed-MediumItalic';
   src: url("../../assets/fonts/AvenirNextCondensed.woff") format("woff"), url("../../assets/fonts/AvenirNextCondensed.svg#AvenirNextCondensed-MediumItalic") format("svg");
 }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: #fff;
+  background-color: #2a2a2b;
+  background-image: url("../images/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.pageRow {
+  padding-top: 40px;
+  padding-top: 4rem;
+  padding-bottom: 40px;
+  padding-bottom: 4rem;
+}
+.pageRow:nth-last-child(2) {
+  padding-bottom: 0;
+}
+
+.nextRow {
+  width: 100%;
+  text-align: center;
+}
+.nextRow i {
+  position: relative;
+  left: -3px;
+  margin-top: 10px;
+  display: block;
+  text-align: center;
+}
+.nextRow i.bounce.active {
+  -webkit-transition: all 0.1s;
+  -webkit-animation: bounce 1.5s;
+  -webkit-animation-iteration-count: infinite;
+}
+
+.siteHeaderWrap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.mainNavigation {
+  position: relative;
+  text-align: center;
+  font-size: 24px;
+  line-height: 80px;
+  height: 80px;
+}
+.mainNavigation:before {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 20px;
+  font-family: 'Glyphicons Halflings';
+  content: "\e055";
+  display: block;
+  position: absolute;
+  right: 0px;
+  top: 0;
+  z-index: 10;
+  width: 70px;
+  height: 70px;
+  padding-left: 25px;
+  padding-top: 0px;
+  text-align: left;
+}
+.mainNavigation a {
+  display: none;
+  color: rgba(255, 255, 255, 0.2);
+  padding: 0 40px;
+}
+.mainNavigation a:hover {
+  color: white;
+  text-decoration: none;
+}
+.mainNavigation.active:before {
+  content: "\e014";
+  color: rgba(255, 255, 255, 0.9);
+}
+.mainNavigation.active a {
+  display: block;
+}
+
+.aboutWrap {
+  text-align: center;
+}
+
+.homeHello {
+  font-size: 100px;
+  font-size: 10rem;
+  line-height: 100px;
+  line-height: 10rem;
+  margin-bottom: 40px;
+  margin-bottom: 4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  display: block;
+}
+
+.aboutWrap p {
+  font-size: 16px;
+  font-size: 1.6rem;
+  line-height: 18px;
+  line-height: 1.8rem;
+}
+.aboutWrap p.homeSlogan {
+  margin-top: 30px;
+  margin-top: 3rem;
+}
+
+.skillsListWrap {
+  overflow: hidden;
+}
+.skillsListWrap ul {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.skillsListWrap .radialProcessItem:nth-child(2n+1) canvas {
+  left: 0;
+}
+.skillsListWrap .radialProcessItem:nth-child(2n) canvas {
+  right: 0;
+}
+.skillsListWrap.animate .radialProcessItem:nth-child(2n+1) canvas {
+  left: -500px;
+}
+.skillsListWrap.animate .radialProcessItem:nth-child(2n) canvas {
+  right: -500px;
+}
+
+.radialProcessItem {
+  margin-top: 10px;
+  margin-top: 1rem;
+  margin-bottom: 10px;
+  margin-bottom: 1rem;
+  text-align: center;
+  text-align: center;
+}
+.radialProcessItem canvas {
+  position: relative;
+  -webkit-transition: all 1.5s ease;
+  -o-transition: all 1.5s ease;
+  transition: all 1.5s ease;
+}
+
+.contactsWrap ul {
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+.contactsWrap a {
+  display: block;
+  color: #fff;
+  line-height: 43px;
+  line-height: 4.3rem;
+  text-align: center;
+}
+.contactsWrap a:hover {
+  text-decoration: none;
+}
+.contactsWrap a:before {
+  font-family: 'Glyphicons Halflings';
+  font-size: 12px;
+  padding-right: 6px;
+  position: relative;
+}
+.contactsWrap .skypeItem {
+  background: rgba(86, 219, 204, 0.2);
+}
+.contactsWrap .skypeItem:active, .contactsWrap .skypeItem:hover {
+  background: rgba(86, 219, 204, 0.8);
+}
+.contactsWrap .phoneItem {
+  background: rgba(219, 86, 86, 0.2);
+}
+.contactsWrap .phoneItem:active, .contactsWrap .phoneItem:hover {
+  background: rgba(219, 86, 86, 0.8);
+}
+.contactsWrap .emailItem {
+  background: rgba(86, 101, 219, 0.2);
+}
+.contactsWrap .emailItem:active, .contactsWrap .emailItem:hover {
+  background: rgba(86, 101, 219, 0.8);
+}
+.contactsWrap .linkedinItem {
+  background: rgba(86, 101, 219, 0.2);
+}
+.contactsWrap .linkedinItem:active, .contactsWrap .linkedinItem:hover {
+  background: rgba(86, 101, 219, 0.8);
+}
+.contactsWrap .githubItem {
+  background: rgba(219, 86, 219, 0.2);
+}
+.contactsWrap .githubItem:active, .contactsWrap .githubItem:hover {
+  background: rgba(219, 86, 219, 0.8);
+}
+.contactsWrap .linkedinItem:before {
+  content: "\e008";
+  top: 1px;
+}
+.contactsWrap .emailItem:before {
+  content: "\2709";
+  top: 2px;
+}
+.contactsWrap .phoneItem:before {
+  content: "\e182";
+  top: 1px;
+}
+.contactsWrap .githubItem:before {
+  content: "\2601";
+  top: 2px;
+}
+.contactsWrap .skypeItem:before {
+  content: "\e183";
+  top: 1px;
+}
+
+.siteFooterWrap {
+  text-align: center;
+  height: 80px;
+  height: 8rem;
+  line-height: 80px;
+  line-height: 8rem;
+}
+.siteFooterWrap img {
+  margin-right: 15px;
+  margin-right: 1.5rem;
+}
+.siteFooterWrap p {
+  margin: 0;
+}
+
 /**
  * media height
  */
 /**
  * media width
  */
+@media (max-width: 768px) {
+  .aboutWrap {
+    padding-top: 80px;
+  }
+
+  .mainNavigation.active {
+    margin: 0;
+    background: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .mainNavigation a {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .mainNavigation a:active {
+    background: #000;
+  }
+}
 @media (min-width: 768px) {
   .h100p {
     height: 100%;
   }
 
-  html,
-  body {
-    height: 100%;
+  .nextRow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    bottom: 0;
+  }
+
+  .mainNavigation:before {
+    display: none;
+  }
+  .mainNavigation a {
+    display: block;
   }
 }
 

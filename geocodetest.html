@@ -18,6 +18,8 @@
 </head>
 <body>
 	
+
+
 	<div id="result">loading...</div>
 
 <script type="text/javascript">
@@ -30,6 +32,34 @@
 		function showPosition(position) {
 		    node.innerHTML = "Latitude: " + position.coords.latitude + 
 		    "<br>Longitude: " + position.coords.longitude; 
+
+		    var lat = position.coords.latitude;
+		    var lng = position.coords.longitude;
+
+		   // lat = '53.9';
+		    // lng = '27.566667000000002';
+
+		    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=';
+		    url += lat + ',' + lng;
+
+		    $.ajax({
+		           url: url,
+		           type: 'GET',
+		           dataType: 'json',
+		           success:function(resp){
+		           	if(resp.results){
+		               for(var i=0; i< resp.results.length;i++){
+		               	var str = '<p>';
+		               	for(var n in resp.results[i]){
+		               		str += JSON.stringify(resp.results[i][n]);
+		               	}
+		               	str += '</p>';
+		               }
+		               node.innerHTML += str;
+		           	}
+		           }
+		       });
+
 		}
 
 		function getLocation() {
@@ -60,7 +90,6 @@
 		setTimeout(function() {
 			
 			getLocation();
-
 
 		}, 500);
 

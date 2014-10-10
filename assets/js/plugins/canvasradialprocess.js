@@ -148,6 +148,18 @@
                   this.ctx.fillStyle = '#ffffff';
                   this.ctx.fillText('0', sizeData.w /2, 7);
 
+                  // var ang = 360 * this.attributes.process / 100;
+                  // if(ang < 180){
+                  //   var b = Math.sin(180 - ang) * sizeData.w /2;
+                  //   var npos = {
+                  //     x:sizeData.w /2 + b,
+                  //     y:sizeData.h /2 + 10
+                  //   }
+                  //   console.log('b', b);
+                  //   this.ctx.fillText(this.attributes.process, 30, npos.y);
+                  // }
+                  
+
 
           if(this.attributes.process < this.attributes.percentEnd){
             this.attributes.process++;

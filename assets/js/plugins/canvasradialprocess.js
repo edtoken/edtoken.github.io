@@ -141,9 +141,12 @@
                   
                   this.ctx.font = "500 14px AvenirNextCondensed-Regular";
                   this.ctx.fillStyle = this.attributes.processColor;
-                      this.ctx.textAlign = 'center';
-                      this.ctx.textBaseline = 'middle';
-                      this.ctx.fillText(this.attributes.fulltext, sizeData.w /2, sizeData.h/2);
+                  this.ctx.textAlign = 'center';
+                  this.ctx.textBaseline = 'middle';
+                  this.ctx.fillText(this.attributes.fulltext, sizeData.w /2, sizeData.h/2);
+                  this.ctx.font = "500 8px AvenirNextCondensed-Regular";
+                  this.ctx.fillStyle = '#ffffff';
+                  this.ctx.fillText('0', sizeData.w /2, 7);
 
 
           if(this.attributes.process < this.attributes.percentEnd){

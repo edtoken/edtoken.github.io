@@ -105,13 +105,6 @@
 	$(document).ready(function(){
 
 		new App().initialize({});
-		$(window).on('scroll', function(){
-			var scroll = $(window).scrollTop();
-			var opacity = (100 - (scroll * 100 / $('#aboutFixed').height())) * 0.01;
-			$('#aboutFixed').css({
-				'opacity':opacity
-			});	
-		});
 
 	});
 

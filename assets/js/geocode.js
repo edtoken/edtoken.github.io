@@ -65,7 +65,7 @@
       getLocation();
 
     }, 500);
-
+    
   });
 
 })(jQuery);

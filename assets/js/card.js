@@ -372,6 +372,34 @@
 					]
 				},
 
+
+				{
+					name:'baseLineSecondArc',
+					type:'arc',
+					step:{start:6, end:9},
+					background:'transparent',
+					strokeStyle:opt.base.colors.line1,
+					lineWidth:1,
+					items:[
+						{
+							x:opt.area.center.x,
+							y:function(){
+								var top = $('#visitCardHeader').offset().top;
+								var a = $('#visitCardHeader').height();
+								var b = $('#visitCardBody').height();
+								var c = $('#visitCardFooter').height();
+								return top + ((a+b+c)/2) - opt.area.scroll;
+							},
+							r: function(){
+								return $('#visitCardHeader').width() / 2;
+							},
+							sAngle:0,
+							eAngle:360 / 100 * that.app.fn.calc.getReady(5, 5),
+							counterclockwise:false
+						}
+					]
+				},
+
 				{
 					name:'baseLineSecondArcs',
 					type:'arc',

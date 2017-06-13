@@ -813,29 +813,29 @@
 
 		});
 
-		var skillProcessInit = function(){
-
-            var process =  0;
-            var color;
-            $('.skillsList li').append('<span></span>');
-
-            var skillProcess = function(){
-                $('.skillsList li span').each(function(){
-                    color = getRandomColor();
-                    var value = parseInt(this.parentNode.getAttribute('data-val')) / 100 * (process * 2);
-                    this.setAttribute('style', 'background:' + color +';width:'+value+'%;');
-                });
-
-                if(process < 50){
-                    requestAnimationFrame(skillProcess)
-                    process++;
-                }
-            };
-
-            new skillProcess;
-        };
-
-        new skillProcessInit;
+        // var skillProcessInit = function(){
+        //
+        //     var process =  0;
+        //     var color;
+        //     $('.skillsList li').append('<span></span>');
+        //
+        //     var skillProcess = function(){
+        //         $('.skillsList li span').each(function(){
+        //             color = getRandomColor();
+        //             var value = parseInt(this.parentNode.getAttribute('data-val')) / 100 * (process * 2);
+        //             this.setAttribute('style', 'background:' + color +';width:'+value+'%;');
+        //         });
+        //
+        //         if(process < 50){
+        //             requestAnimationFrame(skillProcess)
+        //             process++;
+        //         }
+        //     };
+        //
+        //     new skillProcess;
+        // };
+        //
+        // new skillProcessInit;
 
 	$(window).on('resize', function(){
 		$('.skillsList li span').css('background', getRandomColor);

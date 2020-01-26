@@ -1,0 +1,14 @@
+{
+  "name": "eduard-titov-front-end-dev-cv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:edtoken/edtoken.github.io.git",
+  "author": "eduard.titov <editied@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "serve": "serve ./"
+  },
+  "devDependencies": {
+    "serve": "^11.3.0"
+  }
+}
